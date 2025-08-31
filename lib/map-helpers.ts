@@ -81,7 +81,7 @@ export function generateGrid(
     paths: pts.map((p) => new google.maps.LatLng(p.lat, p.lng)),
   });
 
-  const grid: any[] = [];
+  const grid = [];
   let row = 0;
 
   for (let lat = minLat; lat < maxLat; lat += cellSizeDeg) {

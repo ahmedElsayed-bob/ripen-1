@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, LayoutDashboard, Map, Tractor } from "lucide-react";
+import { Home, LayoutDashboard, Map } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
