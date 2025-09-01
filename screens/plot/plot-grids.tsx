@@ -17,10 +17,7 @@ export function PlotGrids({
       <div className="grid grid-cols-5 rounded-xl overflow-hidden">
         {grids.map((grid) => {
           return (
-            <GridCell
-              key={grid.id}
-              color={grid.missingPicture ? "#f7947b" : grid.color}
-            >
+            <GridCell key={grid.id} color={grid.color}>
               <div className="flex flex-col items-center justify-center gap-2">
                 {!grid.missingPicture && <TriangleAlert size={24} />}
                 {grid.name}

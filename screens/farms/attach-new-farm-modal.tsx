@@ -241,7 +241,6 @@ export function AttachNewFarmModal(props: AttachNewFarmModalProps) {
             </div>
           </div>
 
-          {/* MAP */}
           <div className="flex-1">
             <MapFarmSelector onSave={handleSave} />
           </div>
