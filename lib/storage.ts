@@ -1,4 +1,5 @@
-import { EMPTY_STATE, FarmType, StoredState } from "@/types/farm";
+import { defaultFarms } from "@/constants/default-farms";
+import { EMPTY_STATE, FarmType, PlotGridType, StoredState } from "@/types/farm";
 
 const STORAGE_KEY = "ripen_state_v1";
 
@@ -16,7 +17,12 @@ function safeParse(json: string | null): StoredState {
 
 export function loadState(): StoredState {
   if (typeof window === "undefined") return EMPTY_STATE;
-  return safeParse(window.localStorage.getItem(STORAGE_KEY));
+
+  const state = safeParse(window.localStorage.getItem(STORAGE_KEY));
+  if (state.farms.length === 0) {
+    state.farms = defaultFarms;
+  }
+  return state;
 }
 
 export function saveState(state: StoredState): void {
@@ -39,4 +45,30 @@ export function getFarmById(id: string): FarmType | undefined {
 export function deleteFarm(id: string): void {
   const state = loadState();
   saveState({ farms: state.farms.filter((f) => f.id !== id) });
+}
+
+export function updatePlotGrid(
+  farmId: string,
+  sectionId: string,
+  grid: PlotGridType
+): void {
+  const state = loadState();
+
+  saveState({
+    farms: state.farms.map((f) =>
+      f.id === farmId
+        ? {
+            ...f,
+            sections: f.sections?.map((s) =>
+              s.id === sectionId
+                ? {
+                    ...s,
+                    grids: s.grids.map((g) => (g.id === grid.id ? grid : g)),
+                  }
+                : s
+            ),
+          }
+        : f
+    ),
+  });
 }

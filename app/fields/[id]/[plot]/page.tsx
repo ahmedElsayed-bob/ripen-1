@@ -1,9 +1,11 @@
 import { PlotScreen } from "@/screens/plot/plot-screen";
 
-export default function FarmsListPage({
+export default async function FarmsListPage({
   params,
 }: {
-  params: { id: string; plot: string };
+  params: Promise<{ id: string; plot: string }>;
 }) {
-  return <PlotScreen id={params.id} plot={params.plot} />;
+  const { id, plot } = await params;
+
+  return <PlotScreen id={id} plot={plot} />;
 }

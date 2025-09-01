@@ -1,8 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { PlotGridType } from "@/types/farm";
 import { Camera, TriangleAlert } from "lucide-react";
+import Link from "next/link";
 
-export function PlotGrids({ grids }: { grids: PlotGridType[] }) {
+export function PlotGrids({
+  grids,
+  farmId,
+  sectionId,
+}: {
+  grids: PlotGridType[];
+  farmId: string;
+  sectionId: string;
+}) {
   return (
     <div className="min-h-[500px]">
       <div className="grid grid-cols-5 rounded-xl overflow-hidden">
@@ -16,9 +25,11 @@ export function PlotGrids({ grids }: { grids: PlotGridType[] }) {
                 {!grid.missingPicture && <TriangleAlert size={24} />}
                 {grid.name}
                 {grid.missingPicture && (
-                  <Button variant="secondary" size="sm">
-                    <Camera /> Add
-                  </Button>
+                  <Link href={`/fields/${farmId}/${sectionId}/add-pictures`}>
+                    <Button variant="secondary" size="sm">
+                      <Camera /> Add
+                    </Button>
+                  </Link>
                 )}
               </div>
             </GridCell>

@@ -2,24 +2,62 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { PlotGridType } from "@/types/farm";
 import { CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { ChangeEvent, useState, useEffect } from "react";
+import {
+  ChangeEvent,
+  useState,
+  useEffect,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
-import Image from "next/image";
 
-export function PictureUploadBox({ grid }: { grid: PlotGridType }) {
-  const [file, setFile] = useState<File | null>(null);
+interface PictureUploadBoxProps {
+  grid: PlotGridType;
+  onInView?: (isInView: boolean) => void;
+  onUploadPicture?: () => void;
+}
+
+export interface PictureUploadBoxRef {
+  triggerUpload: () => void;
+}
+
+export const PictureUploadBox = forwardRef<
+  PictureUploadBoxRef,
+  PictureUploadBoxProps
+>(({ grid, onInView, onUploadPicture }, ref) => {
   const [isLoading, setIsLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploaded, setIsUploaded] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
 
-  const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0] || null;
-    setFile(selectedFile);
-    if (selectedFile) {
-      setImageUrl(URL.createObjectURL(selectedFile));
-    }
+  useEffect(() => {
+    if (!cardRef.current || !onInView) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          onInView(entry.intersectionRatio >= 0.9);
+        });
+      },
+      {
+        threshold: [0.9],
+        rootMargin: "0px",
+      }
+    );
+
+    observer.observe(cardRef.current);
+
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current);
+      }
+    };
+  }, [onInView]);
+
+  const handleUploadPicture = async () => {
     setIsLoading(true);
     setUploadProgress(0);
 
@@ -43,10 +81,28 @@ export function PictureUploadBox({ grid }: { grid: PlotGridType }) {
 
     setIsLoading(false);
     setIsUploaded(true);
+    onUploadPicture?.();
+  };
+
+  // Expose handleUploadPicture function through ref
+  useImperativeHandle(
+    ref,
+    () => ({
+      triggerUpload: handleUploadPicture,
+    }),
+    []
+  );
+
+  const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0] || null;
+    if (selectedFile) {
+      setImageUrl(URL.createObjectURL(selectedFile));
+    }
+    handleUploadPicture();
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
         <CardTitle>{grid.name}</CardTitle>
       </CardHeader>
@@ -89,4 +145,4 @@ export function PictureUploadBox({ grid }: { grid: PlotGridType }) {
       </CardContent>
     </Card>
   );
-}
+});

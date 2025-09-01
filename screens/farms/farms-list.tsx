@@ -27,25 +27,6 @@ export function FarmsList() {
 
   return (
     <div className="space-y-4">
-      {/* Header with refresh button */}
-      {/* <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold">Fields ({farms.length})</h2>
-        <button
-          onClick={refreshData}
-          disabled={isRefreshing}
-          className={`flex items-center gap-2 px-3 py-2 text-sm rounded-lg transition-colors ${
-            isRefreshing
-              ? "bg-gray-200 cursor-not-allowed"
-              : "bg-gray-100 hover:bg-gray-200"
-          }`}
-          title="Refresh data"
-        >
-          <RefreshCw size={16} className={isRefreshing ? "animate-spin" : ""} />
-          {isRefreshing ? "Refreshing..." : "Refresh"}
-        </button>
-      </div> */}
-
-      {/* Farms grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <AttachNewFarmModal>
           <div className="bg-white rounded-lg p-4 border border-gray-200 flex flex-col items-center justify-center h-full cursor-pointer">
@@ -53,6 +34,7 @@ export function FarmsList() {
             <p>Add new field</p>
           </div>
         </AttachNewFarmModal>
+
         {farms.map((farm) => (
           <FarmCard key={farm.id} {...farm} />
         ))}
@@ -71,6 +53,12 @@ function FarmCard(props: FarmType) {
     locationLabel,
     createdAt,
   } = props;
+
+  const formatedCreatedAt = new Date(createdAt).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
 
   return (
     <div className="bg-white rounded-xl p-4 border border-gray-200">
@@ -93,7 +81,7 @@ function FarmCard(props: FarmType) {
 
         <div className="flex justify-between gap-2 mb-2 items-center">
           <WithIcon icon={<Sprout size={16} />} text={primaryCrop || ""} />
-          <WithIcon icon={<Calendar size={16} />} text={createdAt} />
+          <WithIcon icon={<Calendar size={16} />} text={formatedCreatedAt} />
         </div>
 
         <WithIcon icon={<MapPin size={16} />} text={locationLabel || ""} />

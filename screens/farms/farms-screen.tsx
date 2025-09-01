@@ -1,11 +1,3 @@
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { FarmsList } from "./farms-list";
 import {
   Breadcrumb,
@@ -42,7 +34,6 @@ export function FarmsScreen() {
       </div>
 
       <div className="container mx-auto">
-        {/* <FarmsFilters /> */}
         <div className="flex flex-row gap-6 justify-end text-sm text-gray-700 mb-4">
           <div className="flex flex-row gap-2 items-center">
             <Filter size={12} />
@@ -54,56 +45,6 @@ export function FarmsScreen() {
           </div>
         </div>
         <FarmsList />
-      </div>
-    </div>
-  );
-}
-
-function FarmsFilters() {
-  return (
-    <div className="flex flex-row gap-2 justify-between items-center mb-4">
-      <div className="flex flex-row gap-2">
-        <Input className="bg-white w-80" placeholder="Search farms" />
-
-        <Select defaultValue="0">
-          <SelectTrigger className="bg-white w-40">
-            <SelectValue placeholder="Select a Region" />
-          </SelectTrigger>
-
-          <SelectContent>
-            <SelectItem value="0">Regions: All</SelectItem>
-            <SelectItem value="1">Region 1</SelectItem>
-            <SelectItem value="2">Region 2</SelectItem>
-            <SelectItem value="3">Region 3</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Select defaultValue="0">
-          <SelectTrigger className="bg-white w-40">
-            <SelectValue placeholder="Select a Crop" />
-          </SelectTrigger>
-
-          <SelectContent>
-            <SelectItem value="0">crop: All</SelectItem>
-            <SelectItem value="1">crop 1</SelectItem>
-            <SelectItem value="2">crop 2</SelectItem>
-            <SelectItem value="3">crop 3</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div className="flex flex-row gap-2 items-center">
-        <p>Sort by</p>
-        <Select defaultValue="0">
-          <SelectTrigger className="bg-white w-40">
-            <SelectValue placeholder="Sort by" />
-          </SelectTrigger>
-
-          <SelectContent>
-            <SelectItem value="0">Default</SelectItem>
-            <SelectItem value="1">Next harvest</SelectItem>
-          </SelectContent>
-        </Select>
       </div>
     </div>
   );

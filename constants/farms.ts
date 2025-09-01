@@ -20,48 +20,39 @@ const pickRandomColor = (colorSet: string[]) => {
 };
 
 export const PLOTS_GRIDS_DATA: PlotGridType[] = [
-  { id: "A1", name: "A1", color: "#A3D1C8" },
-  { id: "A2", name: "A2", color: "#5AC5B0", missingPicture: true },
-  { id: "A3", name: "A3", color: "#267666" },
-  { id: "A4", name: "A4", color: "#7CBDB0" },
-  { id: "A5", name: "A5", color: "#A3D1C8" },
-  { id: "A6", name: "A6", color: "#56A898" },
-  { id: "A7", name: "A7", color: "#267666" },
-  { id: "A8", name: "A8", color: "#0E2C26" },
-  { id: "A9", name: "A9", color: "#A3D1C8" },
-  { id: "A10", name: "A10", color: "#1C594D" },
-  { id: "A11", name: "A11", color: "#0E2C26" },
-  { id: "A12", name: "A12", color: "#56A898" },
-  { id: "A13", name: "A13", color: "#309480", missingPicture: true },
-  { id: "A14", name: "A14", color: "#267666" },
-  { id: "A15", name: "A15", color: "#C9E6E0" },
-  { id: "A16", name: "A16", color: "#309480" },
-  { id: "A17", name: "A17", color: "#7CBDB0" },
-  { id: "A18", name: "A18", color: "#267666" },
-  { id: "A19", name: "A19", color: "#1C594D" },
-  { id: "A20", name: "A20", color: "#309480" },
+  { id: "B1", name: "B1", color: "#A3D1C8" },
+  { id: "B2", name: "B2", color: "#5AC5B0", missingPicture: true },
+  { id: "B3", name: "B3", color: "#267666" },
+  { id: "B4", name: "B4", color: "#7CBDB0" },
+  { id: "B5", name: "B5", color: "#A3D1C8" },
+  { id: "B6", name: "B6", color: "#56A898" },
+  { id: "B7", name: "B7", color: "#267666" },
+  { id: "B8", name: "B8", color: "#0E2C26" },
+  { id: "B9", name: "B9", color: "#A3D1C8" },
+  { id: "B10", name: "B10", color: "#1C594D" },
+  { id: "B11", name: "B11", color: "#0E2C26" },
+  { id: "B12", name: "B12", color: "#56A898" },
+  { id: "B13", name: "B13", color: "#309480", missingPicture: true },
+  { id: "B14", name: "B14", color: "#267666" },
+  { id: "B15", name: "B15", color: "#C9E6E0" },
+  { id: "B16", name: "B16", color: "#309480" },
+  { id: "B17", name: "B17", color: "#7CBDB0" },
+  { id: "B18", name: "B18", color: "#267666" },
+  { id: "B19", name: "B19", color: "#1C594D" },
+  { id: "B20", name: "B20", color: "#309480" },
 ];
-
-function getRandomMissingNumbers(maxNumber: number, numberOfMissing: number) {
-  const result = [];
-  for (let i = 0; i < numberOfMissing; i++) {
-    const randomInt = Math.floor(Math.random() * (maxNumber + 1)); // from 0 to maxNumber inclusive
-    result.push(randomInt);
-  }
-
-  return result;
-}
 
 const generatePlotGridsData = (
   numberOfGrids: number,
   missingPicture: number
 ) => {
-  const missingNumbers = getRandomMissingNumbers(numberOfGrids, missingPicture);
+  const missingNumbers = missingPicture > 0 ? [4, 7, 13, 16] : [];
+
   return Array.from({ length: numberOfGrids }, (_, index) => ({
-    id: `A${index + 1}`,
-    name: `A${index + 1}`,
+    id: `B${index + 1}`,
+    name: `B${index + 1}`,
     color: pickRandomColor(colors.plotGreen),
-    missingPicture: missingNumbers.includes(index),
+    missingPicture: missingNumbers.includes(index + 1),
   }));
 };
 

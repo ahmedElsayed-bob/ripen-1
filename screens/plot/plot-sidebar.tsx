@@ -16,6 +16,7 @@ import {
   TriangleAlert,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Props {
   farm: FarmType;
@@ -51,23 +52,23 @@ export function PlotSidebar({ farm, plot }: Props) {
         <CardHeader className="px-4">
           <CardTitle className="flex items-center gap-2">
             <Bell size={16} />
-            <p>Polt KPIs</p>
+            <p>Plot KPIs</p>
           </CardTitle>
         </CardHeader>
 
         <CardContent className="flex flex-col px-4 gap-2">
           <div className="bg-gray-50 py-1 px-3 rounded-lg text-sm">
-            <div>Eta to harvest</div>
+            <div>ETA To Harvest</div>
             <div className="text-gray-500 text-xs">5 - 7 days</div>
           </div>
 
           <div className="bg-gray-50 py-1 px-3 rounded-lg text-sm">
-            <div>Expected yield</div>
+            <div>Expected Yield</div>
             <div className="text-gray-500 text-xs">7.8 tons</div>
           </div>
 
           <div className="bg-gray-50 py-1 px-3 rounded-lg text-sm">
-            <div className="mb-1">Forecast Grade </div>
+            <div className="mb-1">Forecasted Grade </div>
             <div className="me-[50px] flex items-center">
               <div className="w-[52%]">
                 <div className="bg-[#319480] text-white p-1 text-center">A</div>
@@ -78,7 +79,7 @@ export function PlotSidebar({ farm, plot }: Props) {
                 <div className="text-xs text-gray-500 ms-1">27%</div>
               </div>
               <div className="w-[21%]">
-                <div className="bg-[#ECF493] p-1 text-center">c</div>
+                <div className="bg-[#ECF493] p-1 text-center">C</div>
                 <div className="text-xs text-gray-500 ms-1">21%</div>
               </div>
             </div>
@@ -86,7 +87,7 @@ export function PlotSidebar({ farm, plot }: Props) {
 
           <div className="bg-gray-50 py-1 px-3 rounded-lg text-sm">
             <div>Estimated Revenue</div>
-            <div className="text-gray-500 text-xs">$6k</div>
+            <div className="text-gray-500 text-xs">6,140 USD</div>
           </div>
         </CardContent>
       </Card>
@@ -96,16 +97,17 @@ export function PlotSidebar({ farm, plot }: Props) {
           <CardHeader className="px-4">
             <CardTitle className="flex items-center gap-2">
               <Image size={16} />
-              <p>Attach pictures</p>
+              <p>Attach Pictures</p>
             </CardTitle>
-
-            <CardAction
-              onClick={() =>
-                router.push(`/fields/${farm.id}/${plot}/add-pictures`)
-              }
-            >
-              <ChevronRight size={16} />
-            </CardAction>
+            <Link href={`/fields/${farm.id}/${plot}/add-pictures`}>
+              <CardAction
+                onClick={() =>
+                  router.push(`/fields/${farm.id}/${plot}/add-pictures`)
+                }
+              >
+                <ChevronRight size={16} />
+              </CardAction>
+            </Link>
           </CardHeader>
 
           <CardContent className="flex flex-col px-4 gap-2">
@@ -115,10 +117,12 @@ export function PlotSidebar({ farm, plot }: Props) {
                 key={ele.id}
               >
                 <div>{ele.name}</div>
-                <div className="text-[#0D826B] flex items-center gap-1">
-                  <Image size={16} />
-                  Add
-                </div>
+                <Link href={`/fields/${farm.id}/${plot}/add-pictures`}>
+                  <div className="text-[#0D826B] flex items-center gap-1">
+                    <Image size={16} />
+                    Add
+                  </div>
+                </Link>
               </div>
             ))}
           </CardContent>
@@ -128,7 +132,7 @@ export function PlotSidebar({ farm, plot }: Props) {
       <Card className="p-4 gap-3 shadow-lg">
         <div className="flex items-center gap-2">
           <Calendar size={20} />
-          <p>tasks / schedule</p>
+          <p>Tasks / Schedule</p>
         </div>
       </Card>
     </div>

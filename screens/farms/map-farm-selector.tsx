@@ -10,7 +10,7 @@ import {
 } from "@react-google-maps/api";
 import { DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { PenTool, RotateCcw } from "lucide-react";
+import { PenTool, RotateCcw, Route } from "lucide-react";
 
 type LatLng = google.maps.LatLng | google.maps.LatLngLiteral;
 
@@ -79,6 +79,7 @@ export default function MapFarmSelector({
   const [polygonPath, setPolygonPath] = useState<google.maps.LatLngLiteral[]>(
     []
   );
+
   const [farm, setFarm] = useState<FarmShape | null>(null);
   const [isDrawingMode, setIsDrawingMode] = useState<boolean>(false);
 
@@ -201,6 +202,68 @@ export default function MapFarmSelector({
     onSave({ ...farm, zoom });
   };
 
+  const onTraceClicked = () => {
+    const pathCoords = [
+      {
+        lat: 25.090623328227252,
+        lng: 55.93181849040212,
+      },
+      {
+        lat: 25.088762615079283,
+        lng: 55.930016045944114,
+      },
+      {
+        lat: 25.087926985347377,
+        lng: 55.93108356513204,
+      },
+      {
+        lat: 25.088301076107204,
+        lng: 55.93141615904989,
+      },
+      {
+        lat: 25.087800668728665,
+        lng: 55.93207061804952,
+      },
+      {
+        lat: 25.088058160159576,
+        lng: 55.932279830352684,
+      },
+      {
+        lat: 25.08854399157266,
+        lng: 55.93165755786123,
+      },
+      {
+        lat: 25.08925330197213,
+        lng: 55.93231201686086,
+      },
+      {
+        lat: 25.08908326218252,
+        lng: 55.93260169543447,
+      },
+      {
+        lat: 25.089146419846244,
+        lng: 55.93263388194265,
+      },
+      {
+        lat: 25.08968568780138,
+        lng: 55.933030848876854,
+      },
+    ];
+
+    if (mapRef.current) {
+      const polygon = new google.maps.Polygon({
+        paths: pathCoords,
+        fillOpacity: 0.2,
+        fillColor: "#0D826B",
+        strokeColor: "#0D826B",
+        strokeWeight: 2,
+        map: mapRef.current,
+      });
+
+      onPolygonComplete(polygon);
+    }
+  };
+
   if (!isLoaded) return null;
 
   return (
@@ -221,6 +284,10 @@ export default function MapFarmSelector({
 
         {/* Drawing Controls */}
         <div className="absolute bottom-4 left-8 flex gap-3 z-20">
+          <Button onClick={onTraceClicked} variant="outline">
+            <Route />
+            Auto Trace
+          </Button>
           <Button
             onClick={isDrawingMode ? stopDrawing : startPolygonDrawing}
             variant="outline"

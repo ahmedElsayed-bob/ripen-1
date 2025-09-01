@@ -79,7 +79,7 @@ export function AttachNewFarmModal(props: AttachNewFarmModalProps) {
       polygon,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      readiness: Math.floor(Math.random() * 100),
+      readiness: 95,
       sections: SECTIONS_DATA,
     };
     upsertFarm(farmd);
@@ -193,6 +193,26 @@ export function AttachNewFarmModal(props: AttachNewFarmModalProps) {
                       className="w-6 h-6 object-cover rounded-sm"
                     />
                     Soy
+                  </SelectItem>
+                  <SelectItem value="tomato">
+                    <Image
+                      src="/imgs/tomato.webp"
+                      alt="Tomato"
+                      width={24}
+                      height={24}
+                      className="w-6 h-6 object-cover rounded-sm"
+                    />
+                    Tomato
+                  </SelectItem>
+                  <SelectItem value="rice">
+                    <Image
+                      src="/imgs/rice.webp"
+                      alt="Rice"
+                      width={24}
+                      height={24}
+                      className="w-6 h-6 object-cover rounded-sm"
+                    />
+                    Rice
                   </SelectItem>
                   <SelectItem value="other">Other</SelectItem>
                 </SelectContent>

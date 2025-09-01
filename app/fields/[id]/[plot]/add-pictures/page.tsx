@@ -1,9 +1,10 @@
 import { PlotAddPictureScreen } from "@/screens/plot/plot-add-picture-screen";
 
-export default function AppPicturePage({
+export default async function AppPicturePage({
   params,
 }: {
-  params: { id: string; plot: string };
+  params: Promise<{ id: string; plot: string }>;
 }) {
-  return <PlotAddPictureScreen id={params.id} plot={params.plot} />;
+  const { id, plot } = await params;
+  return <PlotAddPictureScreen id={id} plot={plot} />;
 }

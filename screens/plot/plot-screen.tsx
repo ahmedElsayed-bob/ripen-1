@@ -49,7 +49,11 @@ export function PlotScreen({ id, plot }: { id: string; plot: string }) {
               plot={plot}
             />
 
-            <PlotGrids grids={grid?.grids || PLOTS_GRIDS_DATA} />
+            <PlotGrids
+              grids={grid?.grids || PLOTS_GRIDS_DATA}
+              farmId={id}
+              sectionId={plot}
+            />
           </div>
 
           <PlotSidebar farm={farm} plot={plot} />
