@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -27,17 +27,26 @@ import {
   CircleDollarSign,
   Flame,
   Image,
-  Maximize2,
   Send,
   Wheat,
 } from "lucide-react";
 import { FarmPlotsMap } from "./map/farm-plots-map";
 import { useRouter } from "next/navigation";
+import ChatAgent from "./chatbot/chatbot";
 
 export function FieldScreen({ id }: { id: string }) {
   const [farm, setFarm] = useState<FarmType>();
   const [isLoading, setIsLoading] = useState(true);
+  const [chatboxMessage, setChatboxMessage] = useState<string>();
   const router = useRouter();
+  const chatbotSendButton = useRef<HTMLButtonElement>(null);
+
+  const handleSendKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      chatbotSendButton.current?.click();
+    }
+  };
 
   useEffect(() => {
     const farm = getFarmById(id);
@@ -143,19 +152,27 @@ export function FieldScreen({ id }: { id: string }) {
             <Card className="p-0 shadow-lg">
               <CardContent className="p-0 relative">
                 <textarea
+                  value={chatboxMessage}
+                  onChange={(e) => setChatboxMessage(e.target.value)}
+                  onKeyDown={handleSendKeyDown}
                   className="w-full h-24 resize-none border border-transparent rounded-md p-2 text-sm outline-none"
                   placeholder="Ask Ripen"
                 ></textarea>
-                <div className="absolute top-4 right-4 cursor-pointer">
-                  <Maximize2 size={16} />
-                </div>
                 <div className="p-2 flex justify-end">
-                  <Button
-                    size="sm"
-                    className="bg-green-500 text-white hover:bg-green-500/90 cursor-pointer"
+                  <ChatAgent
+                    startMessage={chatboxMessage}
+                    onClose={() => {
+                      setChatboxMessage("");
+                    }}
                   >
-                    <Send size={16} />
-                  </Button>
+                    <Button
+                      ref={chatbotSendButton}
+                      size="sm"
+                      className="bg-green-500 text-white hover:bg-green-500/90 cursor-pointer"
+                    >
+                      <Send size={16} />
+                    </Button>
+                  </ChatAgent>
                 </div>
               </CardContent>
             </Card>
