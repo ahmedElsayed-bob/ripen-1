@@ -58,8 +58,8 @@ const generatePlotGridsData = (
 ) => {
   const missingNumbers = getRandomMissingNumbers(numberOfGrids, missingPicture);
   return Array.from({ length: numberOfGrids }, (_, index) => ({
-    id: `A${index + 1}`,
-    name: `A${index + 1}`,
+    id: `B${index + 1}`,
+    name: `B${index + 1}`,
     color: pickRandomColor(colors.plotGreen),
     missingPicture: missingNumbers.includes(index),
   }));
