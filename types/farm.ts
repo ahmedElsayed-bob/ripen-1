@@ -32,10 +32,28 @@ export type FarmType = {
   readiness: number;
   createdAt: string; // ISO date
   updatedAt?: string; // ISO date
+  sections?: FarmSectionType[];
 };
 
 export type StoredState = {
   farms: FarmType[];
+};
+
+export type PlotGridType = {
+  id: string;
+  name: string;
+  color: string;
+  missingPicture?: boolean;
+};
+
+export type FarmSectionType = {
+  id: string;
+  coords: { lat: number; lng: number }[];
+  color: string;
+  areaM2: number;
+  name: string;
+  isMissingPicture?: boolean;
+  grids: PlotGridType[];
 };
 
 export const EMPTY_STATE: StoredState = { farms: [] };

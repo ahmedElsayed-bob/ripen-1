@@ -27,21 +27,18 @@ import {
   CircleDollarSign,
   Flame,
   Image,
-  Maximize,
   Maximize2,
   Send,
   Wheat,
 } from "lucide-react";
-import FarmSectionsMap from "@/screens/farms/farm-section-map";
-import FarmHeatmap from "./map/farm-heatmap";
 import { FarmPlotsMap } from "./map/farm-plots-map";
-import { isPointInsidePolygon } from "@/lib/map-helpers";
 import { useRouter } from "next/navigation";
 
 export function FieldScreen({ id }: { id: string }) {
   const [farm, setFarm] = useState<FarmType>();
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+
   useEffect(() => {
     const farm = getFarmById(id);
     setFarm(farm);
@@ -79,8 +76,6 @@ export function FieldScreen({ id }: { id: string }) {
       <div className="container mx-auto">
         <div className="flex gap-4">
           <div className="h-[700px] flex-1 bg-gray-200 rounded-xl overflow-hidden">
-            {/* <FarmHeatmap id={id} /> */}
-            {/* <FarmSectionsMap id={id} /> */}
             <FarmPlotsMap farm={farm} />
           </div>
 

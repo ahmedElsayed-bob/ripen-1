@@ -10,7 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -27,7 +26,8 @@ import { upsertFarm } from "@/lib/storage";
 import { FarmType, GeoJsonPolygon } from "@/types/farm";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
-
+import { SECTIONS_DATA } from "@/constants/farms";
+import Image from "next/image";
 interface AttachNewFarmModalProps {
   children: React.ReactNode;
   onClose?: () => void;
@@ -38,7 +38,7 @@ export function AttachNewFarmModal(props: AttachNewFarmModalProps) {
   const router = useRouter();
   const [name, setName] = React.useState<string>("New Field Name");
   const [country, setCountry] = React.useState<string>("uae");
-  const [crop, setCrop] = React.useState<string>("Wheat");
+  const [crop, setCrop] = React.useState<string>("wheat");
   const [plantingDate, setPlantingDate] = React.useState<string>("");
 
   const handleSave = (farm: FarmShape) => {
@@ -80,6 +80,7 @@ export function AttachNewFarmModal(props: AttachNewFarmModalProps) {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       readiness: Math.floor(Math.random() * 100),
+      sections: SECTIONS_DATA,
     };
     upsertFarm(farmd);
 
@@ -145,7 +146,7 @@ export function AttachNewFarmModal(props: AttachNewFarmModalProps) {
                     <SelectValue placeholder="Select a country" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="metric">Metric</SelectItem>
+                    <SelectItem value="metric"> Metric</SelectItem>
                     <SelectItem value="imperial">Imperial</SelectItem>
                   </SelectContent>
                 </Select>
@@ -153,23 +154,46 @@ export function AttachNewFarmModal(props: AttachNewFarmModalProps) {
             </div>
 
             <div>
-              <Label htmlFor="country" className="text-xs mb-1">
-                Crop
-              </Label>
-
               <Select
                 defaultValue="wheat"
                 name="country"
                 value={crop}
                 onValueChange={(value) => setCrop(value)}
               >
-                <SelectTrigger className="w-full">
-                  <SelectValue />
+                <SelectTrigger className="w-full h-[60px] min-h-12">
+                  <SelectValue className="h-[60px] min-h-12" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="wheat">Wheat</SelectItem>
-                  <SelectItem value="corn">Corn</SelectItem>
-                  <SelectItem value="soy">Soy</SelectItem>
+                  <SelectItem value="wheat">
+                    <Image
+                      src="/imgs/wheat.webp"
+                      alt="Wheat"
+                      width={24}
+                      height={24}
+                      className="w-6 h-6 object-cover rounded-sm"
+                    />
+                    Wheat
+                  </SelectItem>
+                  <SelectItem value="corn">
+                    <Image
+                      src="/imgs/corn.jpeg"
+                      alt="Corn"
+                      width={24}
+                      height={24}
+                      className="w-6 h-6 object-cover rounded-sm"
+                    />
+                    Corn
+                  </SelectItem>
+                  <SelectItem value="soy">
+                    <Image
+                      src="/imgs/soy.jpg"
+                      alt="Soy"
+                      width={24}
+                      height={24}
+                      className="w-6 h-6 object-cover rounded-sm"
+                    />
+                    Soy
+                  </SelectItem>
                   <SelectItem value="other">Other</SelectItem>
                 </SelectContent>
               </Select>

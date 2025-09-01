@@ -326,6 +326,8 @@ export default function MapFarmSelector({
 
               polygonOptions: {
                 fillOpacity: 0.2,
+                fillColor: "#0D826B",
+                strokeColor: "#0D826B",
                 strokeWeight: 2,
                 editable: true,
                 draggable: false,

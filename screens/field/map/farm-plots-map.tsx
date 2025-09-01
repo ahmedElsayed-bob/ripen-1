@@ -9,8 +9,9 @@ import {
 } from "@react-google-maps/api";
 import { FarmType } from "@/types/farm";
 import { isPointInsidePolygon, polygonBoundsCenter } from "@/lib/map-helpers";
-import { SECTIONS_DATA } from "../constants/sections";
 import FarmSectionsMap from "@/screens/farms/farm-section-map";
+import { useRouter } from "next/navigation";
+import { Camera, TriangleAlert } from "lucide-react";
 
 type GLL = google.maps.LatLngLiteral;
 
@@ -21,6 +22,7 @@ const libraries = ["drawing", "geometry", "places"] as (
 )[];
 
 export function FarmPlotsMap({ farm }: { farm: FarmType }) {
+  const router = useRouter();
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY!,
     libraries,
@@ -95,7 +97,6 @@ export function FarmPlotsMap({ farm }: { farm: FarmType }) {
     lat: 25.0892112355825,
     lng: 55.931436044164634,
   });
-  console.log({ isPointInsidePolygond });
 
   if (isPointInsidePolygond === false) {
     return <FarmSectionsMap id={farm.id} />;
@@ -134,13 +135,13 @@ export function FarmPlotsMap({ farm }: { farm: FarmType }) {
           />
         )}
 
-        {SECTIONS_DATA.map((section) => (
+        {farm.sections?.map((section) => (
           <React.Fragment key={section.id}>
             <Polygon
               paths={section.coords}
               options={{
                 //   fillOpacity: hoverId === section.id ? 0.6 : 0.4,
-                fillColor: section.color,
+                fillColor: section.isMissingPicture ? "#E78068" : section.color,
                 fillOpacity: 0.8,
                 strokeColor: "#000",
                 strokeWeight: 1.5,
@@ -150,7 +151,7 @@ export function FarmPlotsMap({ farm }: { farm: FarmType }) {
               }}
               // onMouseOver={() => setHoverId(section.id)}
               // onMouseOut={() => setHoverId(null)}
-              // onClick={() => setHoverId(section.id)}
+              onClick={() => router.push(`/fields/${farm.id}/${section.id}`)}
             />
 
             <OverlayView
@@ -158,7 +159,12 @@ export function FarmPlotsMap({ farm }: { farm: FarmType }) {
               position={polygonBoundsCenter(section.coords)}
               mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
             >
-              <div className="flex flex-col items-center gap-2 transform -translate-x-1/2 -translate-y-1/2">
+              <div className="flex flex-col items-center gap-1 transform -translate-x-1/2 -translate-y-1/2">
+                {section.isMissingPicture ? (
+                  <Camera className="text-white" size={16} />
+                ) : (
+                  <TriangleAlert className="text-white" size={16} />
+                )}
                 <p className="text-sm text-white">{section.name}</p>
               </div>
             </OverlayView>
