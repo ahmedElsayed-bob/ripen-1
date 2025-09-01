@@ -161,7 +161,7 @@ const ChatAgent = ({ startMessage, children, onClose }: ChatAgentProps) => {
       <DialogContent>
         <DialogHeader className="flex gap-2 items-center px-3">
           <DialogTitle className="px-3 py-2 bg-bim-compliance-background-table rounded-lg text-sm font-medium text-bim-compliance-text-primary">
-            Talk to Ripen, the Farming Expert
+            Ask Ripen
           </DialogTitle>
         </DialogHeader>
         <div className="flex flex-col gap-3 border border-bim-compliance-secondary-border-alt py-3 rounded-2xl bg-gradient-1 h-[500px] overflow-auto">
