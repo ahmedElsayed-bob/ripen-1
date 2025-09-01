@@ -1,0 +1,92 @@
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { PlotGridType } from "@/types/farm";
+import { CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { ChangeEvent, useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Upload } from "lucide-react";
+import Image from "next/image";
+
+export function PictureUploadBox({ grid }: { grid: PlotGridType }) {
+  const [file, setFile] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUploaded, setIsUploaded] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0] || null;
+    setFile(selectedFile);
+    if (selectedFile) {
+      setImageUrl(URL.createObjectURL(selectedFile));
+    }
+    setIsLoading(true);
+    setUploadProgress(0);
+
+    // Simulate upload progress over 1 second
+    const startTime = Date.now();
+    const duration = 3000; // 1 second
+
+    const updateProgress = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min((elapsed / duration) * 100, 100);
+      setUploadProgress(progress);
+
+      if (progress < 100) {
+        requestAnimationFrame(updateProgress);
+      }
+    };
+
+    requestAnimationFrame(updateProgress);
+
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
+    setIsLoading(false);
+    setIsUploaded(true);
+  };
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>{grid.name}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        {isLoading ? (
+          <div className="space-y-3">
+            <div className="text-sm text-gray-600 font-medium">
+              Uploading... {Math.round(uploadProgress)}%
+            </div>
+            <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-[#0D826B] transition-all duration-75 ease-out rounded-full"
+                style={{ width: `${Math.round(uploadProgress)}%` }}
+              />
+            </div>
+          </div>
+        ) : isUploaded ? (
+          <div>
+            <img
+              src={imageUrl || ""}
+              alt="Uploaded Image"
+              width={100}
+              height={100}
+            />
+          </div>
+        ) : (
+          <div className="flex items-center justify-between">
+            <Button className="bg-[#0D826B] hover:bg-[#0D826B]/90">
+              Capture
+            </Button>
+            <label className="cursor-pointer">
+              <Input type="file" onChange={handleUpload} hidden />
+              <div className="flex items-center gap-2 text-sm text-green-700">
+                <Upload />
+                Upload
+              </div>
+            </label>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}

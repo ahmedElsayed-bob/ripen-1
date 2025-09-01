@@ -1,33 +1,13 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { getFarmById } from "@/lib/storage";
 import { FarmType } from "@/types/farm";
-import {
-  Bell,
-  Calendar,
-  ChevronRight,
-  Image,
-  TriangleAlert,
-} from "lucide-react";
 import { PlotGrids } from "./plot-grids";
 import { PLOTS_GRIDS_DATA } from "@/constants/farms";
 import { PlotHeadSection } from "./plot-head-section";
 import { PlotSidebar } from "./plot-sidebar";
+import { PlotPageHeader } from "./plot-page-header";
 
 export function PlotScreen({ id, plot }: { id: string; plot: string }) {
   const [farm, setFarm] = useState<FarmType>();
@@ -52,7 +32,13 @@ export function PlotScreen({ id, plot }: { id: string; plot: string }) {
 
   return (
     <>
-      <PageHeader farmName={farm.name} id={id} plot={plot} />
+      <PlotPageHeader
+        title={farm.name}
+        subtitle={`Track crop conditions and assess field readiness for optimal harvest.`}
+        farmName={farm.name}
+        id={id}
+        breadcrumbSuffix={[{ label: plot }]}
+      />
 
       <div className="container mx-auto">
         <div className="flex gap-4">
@@ -70,53 +56,5 @@ export function PlotScreen({ id, plot }: { id: string; plot: string }) {
         </div>
       </div>
     </>
-  );
-}
-
-function PageHeader({
-  farmName,
-  id,
-  plot,
-}: {
-  farmName: string;
-  id: string;
-  plot: string;
-}) {
-  return (
-    <div className="border-b border-[#f5f2f0] py-4 mb-4">
-      <div className="container mx-auto">
-        <Breadcrumb className="mb-3">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/">Home</BreadcrumbLink>
-            </BreadcrumbItem>
-
-            <BreadcrumbSeparator />
-
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/fields">Fields</BreadcrumbLink>
-            </BreadcrumbItem>
-
-            <BreadcrumbSeparator />
-
-            <BreadcrumbItem>
-              <BreadcrumbLink href={`/fields/${id}`}>{farmName}</BreadcrumbLink>
-            </BreadcrumbItem>
-
-            <BreadcrumbSeparator />
-
-            <BreadcrumbItem>
-              <BreadcrumbPage>Plot {plot} </BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-
-        <h1 className="text-2xl font-bold mb-1">{farmName}</h1>
-
-        <p className="text-sm text-gray-500">
-          Track crop conditions and assess field readiness for optimal harvest.
-        </p>
-      </div>
-    </div>
   );
 }

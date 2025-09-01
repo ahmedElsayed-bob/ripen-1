@@ -15,6 +15,7 @@ import {
   Image,
   TriangleAlert,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface Props {
   farm: FarmType;
@@ -23,6 +24,7 @@ interface Props {
 
 export function PlotSidebar({ farm, plot }: Props) {
   const grid = farm.sections?.find((section) => section.id === plot);
+  const router = useRouter();
 
   const missingPictureGrids = grid?.grids.filter((grid) => grid.missingPicture);
 
@@ -97,7 +99,11 @@ export function PlotSidebar({ farm, plot }: Props) {
               <p>Attach pictures</p>
             </CardTitle>
 
-            <CardAction>
+            <CardAction
+              onClick={() =>
+                router.push(`/fields/${farm.id}/${plot}/add-pictures`)
+              }
+            >
               <ChevronRight size={16} />
             </CardAction>
           </CardHeader>

@@ -1,7 +1,7 @@
 import { FarmSectionType, PlotGridType } from "@/types/farm";
 
 const colors = {
-  green: ["#8cbdb3", "#3e8a7b", "#0D826B"],
+  green: ["#7CBDB0", "#56A898", "#2F9480", "#267666", "#1C594D", "#133B33"],
   plotGreen: [
     "#A3D1C8",
     "#5AC5B0",

@@ -33,7 +33,7 @@ export function CalendarComponent(props: {
   return (
     <div className="flex flex-col gap-1">
       <Label htmlFor="date" className="text-xs">
-        Planing date
+        Planting date
       </Label>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>

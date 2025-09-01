@@ -141,7 +141,7 @@ export function FarmPlotsMap({ farm }: { farm: FarmType }) {
               paths={section.coords}
               options={{
                 //   fillOpacity: hoverId === section.id ? 0.6 : 0.4,
-                fillColor: section.isMissingPicture ? "#E78068" : section.color,
+                fillColor: section.color,
                 fillOpacity: 0.8,
                 strokeColor: "#000",
                 strokeWeight: 1.5,

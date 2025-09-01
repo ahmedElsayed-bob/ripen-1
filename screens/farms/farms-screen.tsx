@@ -43,7 +43,7 @@ export function FarmsScreen() {
 
       <div className="container mx-auto">
         {/* <FarmsFilters /> */}
-        <div className="flex flex-row gap-6 justify-end text-sm text-gray-700">
+        <div className="flex flex-row gap-6 justify-end text-sm text-gray-700 mb-4">
           <div className="flex flex-row gap-2 items-center">
             <Filter size={12} />
             Filters

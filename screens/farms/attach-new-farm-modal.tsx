@@ -138,10 +138,10 @@ export function AttachNewFarmModal(props: AttachNewFarmModalProps) {
               />
 
               <div className="flex flex-col gap-1">
-                <Label htmlFor="unites" className="text-xs">
-                  Unites
+                <Label htmlFor="units" className="text-xs">
+                  Units
                 </Label>
-                <Select defaultValue="metric" name="unites">
+                <Select defaultValue="metric" name="units">
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a country" />
                   </SelectTrigger>
