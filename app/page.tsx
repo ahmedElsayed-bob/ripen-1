@@ -24,7 +24,10 @@ export default function Home() {
           </p>
 
           <div>
-            <Button className="bg-[#F7C35F] text-black min-w-[200px]" size="lg">
+            <Button
+              className="bg-[#F7C35F] text-black min-w-[200px] hover:bg-[#F7C35F]/90"
+              size="lg"
+            >
               Get Started
             </Button>
           </div>
