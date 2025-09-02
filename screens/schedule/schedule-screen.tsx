@@ -23,13 +23,6 @@ import { Tractor, ChevronDown, UserCircle } from "lucide-react";
 import Select from "react-select";
 import { Button } from "@/components/ui/button";
 import { Toaster, toast } from "react-hot-toast";
-// import {
-//   Select,
-//   SelectTrigger,
-//   SelectValue,
-//   SelectContent,
-//   SelectItem,
-// } from "@/components/ui/select";
 
 const membersOptions = [
   { value: "Hanan Al-Mansoori", label: "Hanan Al-Mansoori" },
@@ -93,6 +86,10 @@ export default function ScheduleScreen() {
   const [selectedRole, setSelectedRole] = useState<string>();
   const [isCrewDropdownOpen, setIsCrewDropdownOpen] = useState(false);
   const [showEvents, setShowEvents] = useState(false);
+  const [selectedTime, setSelectedTime] = useState<Date>();
+  const [shiftLength, setShiftLength] = useState(0);
+  const [shiftsPerDay, setShiftsPerDay] = useState(0);
+  const [hourlyWage, setHourlyWage] = useState(0);
 
   useEffect(() => {
     const start = startOfWeek(selectedDate, { weekStartsOn: 1 });
@@ -122,6 +119,13 @@ export default function ScheduleScreen() {
   const resetCrewBuilder = () => {
     setselectedMembers([]);
     setSelectedRole(undefined);
+  };
+
+  const resetAssumptions = () => {
+    setSelectedTime(undefined);
+    setShiftLength(0);
+    setShiftsPerDay(0);
+    setHourlyWage(0);
   };
 
   const handleDropdownToggle = () => {
@@ -245,6 +249,7 @@ export default function ScheduleScreen() {
               onClick={() => {
                 toast.success("Schedule Published!");
                 resetCrewBuilder();
+                resetAssumptions();
                 setShowEvents(false);
               }}
             >
@@ -356,10 +361,81 @@ export default function ScheduleScreen() {
             <CardHeader className="px-4">
               <CardTitle className="flex items-center gap-2">
                 <Tractor size={20} />
-                <p>Assumption & Constraints</p>
+                <p>Assumptions & Constraints</p>
               </CardTitle>
             </CardHeader>
-            <CardContent></CardContent>
+            <CardContent className="flex flex-col gap-5">
+              {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateRangePicker />
+              </LocalizationProvider> */}
+              <input
+                className="border p-2 rounded-[8px]"
+                type="time"
+                value={selectedTime || ""}
+                onChange={(e) => setSelectedTime(e.target.value)}
+              />
+              <div className="flex justify-between text-xs items-center">
+                <span className="text-gray-600 text-lg ml-1">Shift Length</span>
+                <input
+                  type="number"
+                  value={shiftLength}
+                  onChange={(e) => setShiftLength(Number(e.target.value))}
+                  // placeholder={placeholder}
+                  className="bg-transparent text-right text-lg font-semibold text-gray-800 border-none outline-none w-16 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  min="0"
+                />
+                <span className="text-gray-600 text-lg ml-1">hours</span>
+              </div>
+              <div className="flex justify-between text-xs items-center">
+                <span className="text-gray-600 text-lg ml-1">
+                  Shifts per day
+                </span>
+                <input
+                  type="number"
+                  value={shiftsPerDay}
+                  onChange={(e) => setShiftsPerDay(Number(e.target.value))}
+                  // placeholder={placeholder}
+                  className="bg-transparent text-right text-lg font-semibold text-gray-800 border-none outline-none w-16 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  min="0"
+                />
+              </div>
+              <div className="flex justify-between text-xs items-center">
+                <span className="text-gray-600 text-lg ml-1">Hourly wage</span>
+                <span className="text-gray-600 text-lg ml-1">$</span>
+                <input
+                  type="number"
+                  value={hourlyWage}
+                  onChange={(e) => setHourlyWage(Number(e.target.value))}
+                  // placeholder={placeholder}
+                  className="bg-transparent text-right text-lg font-semibold text-gray-800 border-none outline-none w-16 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  min="0"
+                />
+              </div>
+            </CardContent>
+            <CardFooter className="flex flex-row justify-end gap-2">
+              <Button
+                variant="outline"
+                id="reset"
+                className="justify-between font-normal"
+                onClick={() => {
+                  resetAssumptions();
+                }}
+              >
+                Reset
+              </Button>
+              <Button
+                variant="default"
+                id="assign"
+                className="bg-[#0D826B] justify-between font-normal"
+                disabled={selectedMembers.length == 0 || !selectedRole}
+                onClick={() => {
+                  resetAssumptions();
+                  toast.success("Assumptions & Constraints saved!");
+                }}
+              >
+                Save
+              </Button>
+            </CardFooter>
           </Card>
         </div>
       </div>
