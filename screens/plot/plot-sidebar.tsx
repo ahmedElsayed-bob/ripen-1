@@ -33,16 +33,16 @@ export function PlotSidebar({ farm, plot }: Props) {
   return (
     <div className="w-[300px] flex flex-col gap-6">
       <Card className="py-4 gap-3 shadow-lg">
-        <CardHeader className="px-4">
+        <CardHeader
+          className="px-4 cursor-pointer"
+          onClick={() => router.push(`/fields/${farm.id}/notifications`)}
+        >
           <CardTitle className="flex items-center gap-2">
             <TriangleAlert size={16} />
             <p>Alerts</p>
           </CardTitle>
 
-          <CardAction
-            onClick={() => router.push(`/notifications`)}
-            className="cursor-pointer"
-          >
+          <CardAction>
             <ChevronRight size={16} />
           </CardAction>
         </CardHeader>
@@ -147,7 +147,10 @@ export function PlotSidebar({ farm, plot }: Props) {
       )}
 
       <Card className="p-4 pb-2 gap-3 shadow-lg">
-        <CardHeader className="p-0 items-center m-0">
+        <CardHeader
+          className="p-0 items-center m-0 cursor-pointer"
+          onClick={() => router.push(`/fields/${farm.id}/calendar`)}
+        >
           <CardTitle className="flex items-center gap-2">
             <Calendar size={20} />
             <p>Tasks / Schedule</p>

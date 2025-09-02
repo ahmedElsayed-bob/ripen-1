@@ -73,7 +73,7 @@ function YieldParameters({ farm }: { farm: FarmType }) {
       C: 21,
     },
   });
-
+  console.log({ values });
   const revenue = values.expectedYield * values.marketPrice;
 
   const [timeToHarvest, setTimeToHarvest] = useState(0);
@@ -90,7 +90,8 @@ function YieldParameters({ farm }: { farm: FarmType }) {
       (gradeBChange > 0 ? gradeBChange : 0);
 
     const newYield = 1240 - Math.abs(value) * 12;
-    const newMarketPrice = values.marketPrice - calculatePriceDecrease(value);
+    const newMarketPrice =
+      values.marketPrice - (calculatePriceDecrease(value) || 0);
 
     setValues({
       ...values,
@@ -121,7 +122,6 @@ function YieldParameters({ farm }: { farm: FarmType }) {
     Object.keys(newColors).forEach((c) => {
       const values = newColors[c];
       const index = Math.abs(timeToHarvest);
-      console.log(index);
       const correctIndex =
         index <= 1
           ? 0
@@ -196,7 +196,9 @@ function YieldParameters({ farm }: { farm: FarmType }) {
                 </div>
               </div>
             </CardContainer>
+
             <YieldCard title="Revenue" value={`${revenue} USD`} />
+
             <YieldCard
               title="Market Price"
               value={`${values.marketPrice} USD/ton`}
@@ -246,7 +248,7 @@ function YieldParameters({ farm }: { farm: FarmType }) {
               <p className="font-medium mb-2">Yield per Ha</p>
               <div className="space-y-2">
                 <Slider
-                  defaultValue={[7]}
+                  defaultValue={[0]}
                   max={10}
                   min={-10}
                   step={1}
@@ -264,7 +266,7 @@ function YieldParameters({ farm }: { farm: FarmType }) {
               <p className="font-medium mb-2">Grade A</p>
               <div className="space-y-2">
                 <Slider
-                  defaultValue={[7]}
+                  defaultValue={[0]}
                   max={10}
                   min={-10}
                   step={1}
@@ -282,7 +284,7 @@ function YieldParameters({ farm }: { farm: FarmType }) {
               <p className="font-medium mb-2">Grade B</p>
               <div className="space-y-2">
                 <Slider
-                  defaultValue={[7]}
+                  defaultValue={[0]}
                   max={10}
                   min={-10}
                   step={1}

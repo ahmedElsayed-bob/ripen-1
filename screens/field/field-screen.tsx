@@ -108,15 +108,15 @@ export function FieldScreen({ id }: { id: string }) {
 
           <div className="w-[300px] flex flex-col gap-6">
             <Card className="py-4 gap-3 shadow-lg">
-              <CardHeader className="px-4">
+              <CardHeader
+                className="px-4 cursor-pointer"
+                onClick={() => router.push(`/fields/${id}/notifications`)}
+              >
                 <CardTitle className="flex items-center gap-2">
                   <Bell size={16} />
                   <p>Notifications</p>
                 </CardTitle>
-                <CardAction
-                  onClick={() => router.push(`/notifications`)}
-                  className="cursor-pointer"
-                >
+                <CardAction className="cursor-pointer">
                   <ChevronRight size={16} />
                 </CardAction>
               </CardHeader>
@@ -137,11 +137,17 @@ export function FieldScreen({ id }: { id: string }) {
             </Card>
 
             <Card className="py-4 gap-3 shadow-lg">
-              <CardHeader className="px-4">
+              <CardHeader
+                className="px-4 cursor-pointer"
+                onClick={() => router.push(`/fields/${farm.id}/calendar`)}
+              >
                 <CardTitle className="flex items-center gap-2">
                   <Calendar size={16} />
                   <p>Estimated Time To Harvest</p>
                 </CardTitle>
+                <CardAction>
+                  <ChevronRight size={16} />
+                </CardAction>
               </CardHeader>
               <CardContent className="text-sm text-gray-500">
                 <p>7 - 9 days</p>

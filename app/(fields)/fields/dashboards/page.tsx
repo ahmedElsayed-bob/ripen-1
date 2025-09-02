@@ -1,3 +1,6 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { CornerDownLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -11,7 +14,7 @@ export default function FieldsDashboardsPage() {
         height={100}
         className="absolute top-0 left-0 w-full h-full"
       />
-      <div className="container mx-auto">
+      <div className="container mx-auto relative">
         <div className="py-24">
           <h1 className="text-4xl font-bold mb-4">Ripen</h1>
           <p className="text-2xl mb-4 text-[#212D45]">
@@ -65,10 +68,33 @@ export default function FieldsDashboardsPage() {
             </div>
           </div>
 
-          {/* <h2 className="text-3xl text-[#212D45] mb-4">
+          <h2 className="text-3xl text-[#212D45] mb-4 font-bold">
             Meet Ripen – Your Agriculture AI Expert
           </h2>
-          <div className="h-[100px] bg-gray-200" /> */}
+          <div className="shadow-lg rounded-xl p-4">
+            <div className="flex items-center gap-4 mb-12">
+              <Image
+                src="/colored-logo.svg"
+                width={30}
+                height={30}
+                alt="colored-logo"
+              />
+              <p className="bg-[#F9F7F6] py-2 px-4 rounded-xl">
+                Welcome to Ripen! Ask me anything...{" "}
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 bg-[#F9F7F6] rounded-xl p-2">
+              <Input
+                type="text"
+                className="flex-1 bg-white"
+                placeholder="Ask anything..."
+              />
+              <Button className="bg-[#0D826B] hover:bg-[#0D826B]/90">
+                <CornerDownLeft />
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

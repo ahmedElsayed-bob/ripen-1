@@ -1,3 +1,4 @@
+"use client";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -6,6 +7,7 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
+import { getFarmById } from "@/lib/storage";
 import { hoursSince } from "@/lib/utils";
 import {
   Thermometer,
@@ -17,7 +19,8 @@ import {
   Calendar,
   CloudRainWind,
 } from "lucide-react";
-import { ReactNode } from "react";
+import { useParams } from "next/navigation";
+import { ReactNode, useMemo } from "react";
 
 interface Notification {
   title: string;
@@ -72,6 +75,13 @@ const notifications: Notification[] = [
 ];
 
 export default function NotificationsScreen() {
+  const { id } = useParams();
+
+  const farmName = useMemo(() => {
+    if (!id) return "";
+    return getFarmById(id as string)?.name;
+  }, [id]);
+
   return (
     <div>
       <div className="container mx-auto border-b border-[#f5f2f0] py-4 mb-4">
@@ -81,6 +91,20 @@ export default function NotificationsScreen() {
               <BreadcrumbLink href="/fields/dashboards">Home</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
+            {!!id && (
+              <>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/fields">Fields</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink href={`/fields/${id}`}>
+                    {farmName}
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+              </>
+            )}
             <BreadcrumbItem>
               <BreadcrumbPage>Notifications</BreadcrumbPage>
             </BreadcrumbItem>

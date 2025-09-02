@@ -34,7 +34,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="max-w-[1000px] mx-auto py-24">
+      <div className="max-w-[1000px] mx-auto py-18">
         <h2 className="text-4xl flex gap-2 mb-3">
           Agriculture by
           <Image src="/ai71-logo.svg" alt="logo" width={50} height={50} />
@@ -49,7 +49,7 @@ export default function Home() {
         <div className="grid grid-cols-3 gap-4 mb-6">
           <div className="relative rounded-xl overflow-hidden group">
             <Image
-              src="/solution1.jpg"
+              src="/solution1.png"
               alt="Ripen"
               width={150}
               height={150}
@@ -76,7 +76,7 @@ export default function Home() {
 
           <div className="relative rounded-xl overflow-hidden group">
             <Image
-              src="/solution2.svg"
+              src="/solution2.png"
               alt="Ripen"
               width={150}
               height={150}
@@ -96,7 +96,7 @@ export default function Home() {
 
           <div className="relative rounded-xl overflow-hidden group">
             <Image
-              src="/solution1.jpg"
+              src="/solution3.png"
               alt="Ripen"
               width={150}
               height={150}
@@ -114,7 +114,7 @@ export default function Home() {
 
           <div className="relative rounded-xl overflow-hidden group">
             <Image
-              src="/solution1.jpg"
+              src="/solution4.png"
               alt="Ripen"
               width={150}
               height={150}
@@ -133,7 +133,7 @@ export default function Home() {
 
           <div className="relative rounded-xl overflow-hidden group">
             <Image
-              src="/solution5.svg"
+              src="/solution5.png"
               alt="Ripen"
               width={150}
               height={150}
@@ -152,32 +152,26 @@ export default function Home() {
 
           <div className="relative rounded-xl overflow-hidden group">
             <Image
-              src="/solution1.jpg"
-              alt="Ripen"
+              src="/solution6.png"
+              alt="Incrop"
               width={150}
               height={150}
               className="w-full h-[150px] object-cover"
             />
             <div className="absolute bottom-4 right-4 left-4 flex items-center justify-between text-white group-hover:hidden">
               <p className="text-2xl font-bold">Incrop</p>
-              <Image src="/logo-arrow.svg" alt="Ripen" width={30} height={30} />
+              <Image
+                src="/logo-arrow.svg"
+                alt="Incrop arrow"
+                width={30}
+                height={30}
+              />
             </div>
 
             <div className="inset-0 px-4 absolute bg-black/50 flex flex-col items-center gap-2 justify-center text-white text-center group-hover:flex hidden">
               <p className="text-xl font-bold">Coming Soon</p>
               <p>Forecast inputs. Source smarter.</p>
             </div>
-          </div>
-        </div>
-
-        <div className="bg-white py-6 rounded-xl shadow-md">
-          <div className="max-w-[550px] mx-auto text-center">
-            <p className="text-2xl font-bold mb-2">More Agents Coming Soon…</p>
-            <p className="text-[#736E68]">
-              The Health71 agent network is growing. From RCM to clinical ops,
-              our autonomous modules plug into your system and scale with your
-              needs.
-            </p>
           </div>
         </div>
       </div>

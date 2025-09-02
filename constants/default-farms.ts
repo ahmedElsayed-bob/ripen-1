@@ -1704,8 +1704,8 @@ export const defaultFarms: FarmType[] = [
     name: "Corn Field",
     country: "uae",
     locationLabel: "Dubai, uae",
-    crops: ["Rice"],
-    primaryCrop: "Rice",
+    crops: ["Corn"],
+    primaryCrop: "Corn",
     plantingDate: "2025-08-17T20:00:00.000Z",
     thumbnailUrl: "/imgs/farm2.jpeg",
     mapCenter: {

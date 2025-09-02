@@ -9,7 +9,7 @@ import {
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { startOfWeek, endOfWeek } from "date-fns";
 import {
   Card,
@@ -23,6 +23,7 @@ import { Tractor, ChevronDown, UserCircle } from "lucide-react";
 import Select from "react-select";
 import { Button } from "@/components/ui/button";
 import { Toaster, toast } from "react-hot-toast";
+import { getFarmById } from "@/lib/storage";
 
 const membersOptions = [
   { value: "Hanan Al-Mansoori", label: "Hanan Al-Mansoori" },
@@ -78,7 +79,7 @@ const events: Event[] = [
 
 const sources = ["B1", "B2", "B3", "B4", "B5", "B6", "B7"];
 
-export default function ScheduleScreen() {
+export default function ScheduleScreen({ id }: { id?: string }) {
   const today = new Date().toISOString().split("T")[0];
   const [selectedDate, setSelectedDate] = useState(today);
   const [weekDays, setWeekDays] = useState<string[]>([]);
@@ -156,7 +157,7 @@ export default function ScheduleScreen() {
       />
       <div className="border-b border-[#f5f2f0] py-4 mb-4">
         <div className="container mx-auto">
-          <PageBreadcrumb />
+          <PageBreadcrumb id={id} />
 
           <h1 className="text-2xl font-bold mb-1">Schedule Management</h1>
           <p className="text-sm text-gray-500">
@@ -449,7 +450,12 @@ export default function ScheduleScreen() {
   );
 }
 
-function PageBreadcrumb() {
+function PageBreadcrumb({ id }: { id?: string }) {
+  const farmName = useMemo(() => {
+    if (!id) return "";
+    return getFarmById(id as string)?.name;
+  }, [id]);
+
   return (
     <Breadcrumb className="mb-3">
       <BreadcrumbList>
@@ -457,6 +463,18 @@ function PageBreadcrumb() {
           <BreadcrumbLink href="/fields/dashboards">Home</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
+        {!!id && (
+          <>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/fields">Fields</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink href={`/fields/${id}`}>{farmName}</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+          </>
+        )}
         <BreadcrumbItem>
           <BreadcrumbPage>Schedule Management</BreadcrumbPage>
         </BreadcrumbItem>
