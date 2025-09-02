@@ -368,18 +368,22 @@ export default function ScheduleScreen() {
               {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateRangePicker />
               </LocalizationProvider> */}
-              <input
-                className="border p-2 rounded-[8px]"
-                type="time"
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                value={selectedTime || ""}
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                onChange={(e) => setSelectedTime(e.target.value)}
-              />
-              <div className="flex justify-between text-xs items-center">
-                <span className="text-gray-600 text-lg ml-1">Shift Length</span>
+              <div className="flex justify-between text-[14px] text-gray-400 items-center">
+                <span>Shift start time</span>
+                <input
+                  className="text-black border p-2 rounded-[8px]"
+                  type="time"
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
+                  value={selectedTime || ""}
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
+                  onChange={(e) => setSelectedTime(e.target.value)}
+                />
+              </div>
+
+              <div className="flex justify-between text-[14px] text-gray-400 items-center">
+                <span>Shift Length</span>
                 <input
                   type="number"
                   value={shiftLength}
@@ -388,12 +392,10 @@ export default function ScheduleScreen() {
                   className="bg-transparent text-right text-lg font-semibold text-gray-800 border-none outline-none w-16 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   min="0"
                 />
-                <span className="text-gray-600 text-lg ml-1">hours</span>
+                <span>hours</span>
               </div>
-              <div className="flex justify-between text-xs items-center">
-                <span className="text-gray-600 text-lg ml-1">
-                  Shifts per day
-                </span>
+              <div className="flex justify-between text-[14px] text-gray-400 items-center">
+                <span>Shifts per day</span>
                 <input
                   type="number"
                   value={shiftsPerDay}
@@ -403,9 +405,9 @@ export default function ScheduleScreen() {
                   min="0"
                 />
               </div>
-              <div className="flex justify-between text-xs items-center">
-                <span className="text-gray-600 text-lg ml-1">Hourly wage</span>
-                <span className="text-gray-600 text-lg ml-1">$</span>
+              <div className="flex justify-between text-[14px] text-gray-400 items-center">
+                <span>Hourly wage</span>
+                <span>$</span>
                 <input
                   type="number"
                   value={hourlyWage}
