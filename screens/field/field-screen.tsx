@@ -146,14 +146,20 @@ export function FieldScreen({ id }: { id: string }) {
             </Card>
 
             <Card className="py-4 gap-3 shadow-lg">
-              <CardHeader className="px-4">
+              <CardHeader
+                className="px-4 cursor-pointer"
+                onClick={() => router.push(`/fields/${id}/profitability`)}
+              >
                 <CardTitle className="flex items-center gap-2">
                   <Wheat size={16} />
                   <p>Forecasted Yield</p>
                 </CardTitle>
+                <CardAction>
+                  <ChevronRight size={16} />
+                </CardAction>
               </CardHeader>
               <CardContent className="text-sm text-gray-500">
-                <p>128 tons</p>
+                <p>1240 tons</p>
               </CardContent>
             </Card>
 
@@ -165,7 +171,7 @@ export function FieldScreen({ id }: { id: string }) {
                 </CardTitle>
               </CardHeader>
               <CardContent className="text-sm text-gray-500">
-                1,500 USD
+                308,090.4 USD
               </CardContent>
             </Card>
 
