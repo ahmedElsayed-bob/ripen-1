@@ -245,7 +245,7 @@ export default function ScheduleScreen() {
               variant="default"
               id="assign"
               className="bg-[#0D826B] justify-between font-normal"
-              disabled={selectedMembers.length == 0 || !selectedRole}
+              disabled={!showEvents}
               onClick={() => {
                 toast.success("Schedule Published!");
                 resetCrewBuilder();
@@ -433,7 +433,7 @@ export default function ScheduleScreen() {
                 variant="default"
                 id="assign"
                 className="bg-[#0D826B] justify-between font-normal"
-                disabled={selectedMembers.length == 0 || !selectedRole}
+                disabled={selectedTime == undefined}
                 onClick={() => {
                   resetAssumptions();
                   toast.success("Assumptions & Constraints saved!");
