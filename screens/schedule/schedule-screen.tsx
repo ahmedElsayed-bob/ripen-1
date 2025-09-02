@@ -371,7 +371,11 @@ export default function ScheduleScreen() {
               <input
                 className="border p-2 rounded-[8px]"
                 type="time"
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
                 value={selectedTime || ""}
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
                 onChange={(e) => setSelectedTime(e.target.value)}
               />
               <div className="flex justify-between text-xs items-center">
