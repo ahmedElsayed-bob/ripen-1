@@ -203,7 +203,10 @@ const ChatAgent = ({ startMessage, children, onClose }: ChatAgentProps) => {
                   <p className={messageTimeClass(message.isUser)}>
                     {new Date(
                       message.timestamp || new Date().toISOString()
-                    ).toLocaleTimeString()}
+                    ).toLocaleTimeString(undefined, {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                   </p>
                 ) : null}
               </div>
