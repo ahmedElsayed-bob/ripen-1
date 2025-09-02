@@ -11,6 +11,50 @@ import {
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { startOfWeek, endOfWeek } from "date-fns";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardAction,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Tractor, ChevronDown, UserCircle } from "lucide-react";
+import Select from "react-select";
+import { Button } from "@/components/ui/button";
+import { Toaster, toast } from "react-hot-toast";
+// import {
+//   Select,
+//   SelectTrigger,
+//   SelectValue,
+//   SelectContent,
+//   SelectItem,
+// } from "@/components/ui/select";
+
+const membersOptions = [
+  { value: "Hanan Al-Mansoori", label: "Hanan Al-Mansoori" },
+  { value: "Hani Al-Sabah", label: "Hani Al-Sabah" },
+  { value: "Khaled Saeed", label: "Khaled Saeed" },
+  { value: "Hana Al-Jabari", label: "Hana Al-Jabari" },
+];
+
+const roleOptions = [
+  { value: "member", label: "Member" },
+  { value: "supervisor", label: "Supervisor" },
+];
+
+const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
+interface Option {
+  label: string;
+  action: () => void;
+}
+const dropdownOptions: Option[] = [
+  { label: "Settings", action: () => console.log("Settings clicked") },
+  { label: "Manage Teams", action: () => console.log("Manage Teams clicked") },
+  { label: "Help & Support", action: () => console.log("Help clicked") },
+  { label: "Sign Out", action: () => console.log("Sign Out clicked") },
+];
 
 interface Event {
   day: string;
@@ -18,15 +62,41 @@ interface Event {
   text: string;
 }
 
+// Predefined data: { day, source, text }
+const events: Event[] = [
+  {
+    day: "TUE 2",
+    source: "B2",
+    text: "QC walk & flag access lanes (Scout)\nStake headland markers (Ops)",
+  },
+  { day: "WED 3", source: "B3", text: "QC Sampling at mid-field (Scout)" },
+  {
+    day: "THU 4",
+    source: "B6",
+    text: "QC walk & flag access lanes (Scout)\nStake headland markers (Ops)",
+  },
+  {
+    day: "TUE 2",
+    source: "B5",
+    text: "QC walk & flag access lanes (Scout)\nStake headland markers (Ops)",
+  },
+  { day: "SAT 6", source: "B5", text: "QC Sampling at mid-field (Scout)" },
+];
+
+const sources = ["B1", "B2", "B3", "B4", "B5", "B6", "B7"];
+
 export default function ScheduleScreen() {
   const today = new Date().toISOString().split("T")[0];
   const [selectedDate, setSelectedDate] = useState(today);
   const [weekDays, setWeekDays] = useState<string[]>([]);
+  const [selectedMembers, setselectedMembers] = useState<string[]>([]);
+  const [selectedRole, setSelectedRole] = useState<string>();
+  const [isCrewDropdownOpen, setIsCrewDropdownOpen] = useState(false);
+  const [showEvents, setShowEvents] = useState(false);
 
   useEffect(() => {
     const start = startOfWeek(selectedDate, { weekStartsOn: 1 });
     const end = endOfWeek(selectedDate, { weekStartsOn: 1 });
-    const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
     const result = [];
 
     const current = new Date(start);
@@ -43,37 +113,43 @@ export default function ScheduleScreen() {
     setWeekDays(result);
   }, [selectedDate]);
 
-  // Predefined data: { day, source, text }
-  const events: Event[] = [
-    {
-      day: "TUE 2",
-      source: "B2",
-      text: "QC walk & flag access lanes (Scout)\nStake headland markers (Ops)",
-    },
-    { day: "WED 3", source: "B3", text: "QC Sampling at mid-field (Scout)" },
-    {
-      day: "THU 4",
-      source: "B6",
-      text: "QC walk & flag access lanes (Scout)\nStake headland markers (Ops)",
-    },
-    {
-      day: "TUE 2",
-      source: "B5",
-      text: "QC walk & flag access lanes (Scout)\nStake headland markers (Ops)",
-    },
-    { day: "SAT 6", source: "B5", text: "QC Sampling at mid-field (Scout)" },
-  ];
-
-  const sources = ["B1", "B2", "B3", "B4", "B5", "B6", "B7"];
-
   // Helper to find event text by day/source
   const getEvent = (day: string, source: string) => {
     const ev = events.find((e) => e.day === day && e.source === source);
     return ev ? ev.text : "";
   };
 
+  const resetCrewBuilder = () => {
+    setselectedMembers([]);
+    setSelectedRole(undefined);
+  };
+
+  const handleDropdownToggle = () => {
+    setIsCrewDropdownOpen((prev) => !prev);
+  };
+
+  const handleOptionClick = (option: Option) => {
+    option.action();
+    setIsCrewDropdownOpen(false);
+  };
+
   return (
     <>
+      <Toaster
+        position="bottom-center"
+        reverseOrder={false} // newest toast on top
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: "#0D826B", // background color
+            color: "#fff", // text color
+            fontSize: "16px", // font size
+            padding: "12px 20px", // padding
+            borderRadius: "8px", // rounded corners
+            boxShadow: "0 2px 10px rgba(0,0,0,0.3)", // shadow
+          },
+        }}
+      />
       <div className="border-b border-[#f5f2f0] py-4 mb-4">
         <div className="container mx-auto">
           <PageBreadcrumb />
@@ -123,12 +199,12 @@ export default function ScheduleScreen() {
                     const cellClassName = classNames(
                       "border border-gray-300 align-middle border-l-0",
                       {
-                        "bg-green-100": event,
+                        "bg-green-100": event && showEvents,
                       }
                     );
                     return (
                       <td key={day + src} className={cellClassName}>
-                        {event ? (
+                        {event && showEvents ? (
                           <div className="h-14 overflow-auto text-[8px] leading-3 whitespace-pre-line text-green-900 rounded p-1">
                             {event}
                           </div>
@@ -140,10 +216,151 @@ export default function ScheduleScreen() {
               ))}
             </tbody>
           </table>
+          <div className="flex justify-end gap-2">
+            <Button
+              variant="outline"
+              id="assign"
+              className="justify-between font-normal"
+              onClick={() => {
+                setShowEvents(true);
+              }}
+            >
+              Auto Plan
+            </Button>
+            <Button
+              variant="outline"
+              id="assign"
+              className="justify-between font-normal"
+              onClick={() => {
+                setShowEvents(false);
+              }}
+            >
+              Reset
+            </Button>
+            <Button
+              variant="default"
+              id="assign"
+              className="bg-[#0D826B] justify-between font-normal"
+              disabled={selectedMembers.length == 0 || !selectedRole}
+              onClick={() => {
+                toast.success("Schedule Published!");
+                resetCrewBuilder();
+                setShowEvents(false);
+              }}
+            >
+              Publish
+            </Button>
+          </div>
         </div>
-        <div className="min-w-72 w-72 overflow-auto">
-          CARDS CARDS CARDS CARDS CARDS CARDS CARDS CARDS CARDS CARDS CARDS
-          CARDS CARDS
+        <div className="flex flex-col gap-5 min-w-72 w-72 overflow-auto">
+          <Card className="py-4 gap-3 shadow-lg">
+            <CardHeader className="px-4 items-center">
+              <CardTitle className="flex items-center gap-2">
+                <UserCircle size={20} />
+                <p>Crew Builder</p>
+              </CardTitle>
+              <CardAction>
+                <button
+                  onClick={handleDropdownToggle}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                >
+                  <ChevronDown
+                    className={`w-5 h-5 text-gray-600 transition-transform duration-200 ${
+                      isCrewDropdownOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {isCrewDropdownOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-10">
+                    {dropdownOptions.map((option, index) => {
+                      return (
+                        <button
+                          key={index}
+                          onClick={() => handleOptionClick(option)}
+                          className="w-full flex items-center space-x-3 px-4 py-2 text-left text-gray-700 hover:bg-gray-50 transition-colors duration-150"
+                        >
+                          <span className="text-sm">{option.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </CardAction>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-5">
+              <Select
+                styles={{
+                  control: (styles) => ({
+                    ...styles,
+                    borderRadius: 8,
+                    borderColor: "rgba(115, 110, 104, 0.30)",
+                  }),
+                }}
+                isMulti // This enables tokenization
+                value={selectedMembers}
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                onChange={setselectedMembers}
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                options={membersOptions}
+                placeholder="Start typing names"
+                isSearchable
+              />
+              <div>
+                <p className="m-2">Group role</p>
+                <Select
+                  value={selectedRole || ""}
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-expect-error
+                  onChange={setSelectedRole}
+                  styles={{
+                    control: (styles) => ({
+                      ...styles,
+                      borderRadius: 8,
+                      borderColor: "rgba(115, 110, 104, 0.30)",
+                    }),
+                  }}
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-expect-error
+                  options={roleOptions}
+                />
+              </div>
+            </CardContent>
+            <CardFooter className="flex flex-row justify-end gap-2">
+              <Button
+                variant="outline"
+                id="reset"
+                className="justify-between font-normal"
+                onClick={() => {
+                  resetCrewBuilder();
+                }}
+              >
+                Reset
+              </Button>
+              <Button
+                variant="default"
+                id="assign"
+                className="bg-[#0D826B] justify-between font-normal"
+                disabled={selectedMembers.length == 0 || !selectedRole}
+                onClick={() => {
+                  resetCrewBuilder();
+                  toast.success("New crew members assigned!");
+                }}
+              >
+                Assign
+              </Button>
+            </CardFooter>
+          </Card>
+          <Card className="py-4 gap-3 shadow-lg">
+            <CardHeader className="px-4">
+              <CardTitle className="flex items-center gap-2">
+                <Tractor size={20} />
+                <p>Assumption & Constraints</p>
+              </CardTitle>
+            </CardHeader>
+            <CardContent></CardContent>
+          </Card>
         </div>
       </div>
     </>
