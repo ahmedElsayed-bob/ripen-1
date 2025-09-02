@@ -34,15 +34,12 @@ const ChatAgent = ({ startMessage, children, onClose }: ChatAgentProps) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isAiTyping, setIsAiTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const responseIdx = useRef<number>(0);
 
   // Mock responses for the AI
   const mockResponses = [
-    "Random response #1",
-    "Random response #2",
-    "Random response #3",
-    "Random response #4",
-    "Random response #5",
-    "Random response #6",
+    "I’d hold for one more day and start Thursday, Sep 4. Here’s why: the crop is already in good shape—about 88% harvest-ready today—but the model expects it to tick up to around 95% by Thursday, with grain moisture easing from ~22.6% to ~20.8%.\nIf we cut before Wednesday night’s light rain, we risk a quality hit and a bit of sprouting around the low spots; if we wait, we avoid drying costs and likely pick up a small price premium. Market signals are still slightly positive this week and soften after the weekend, so Thu/Fri is the sweet spot. If you want, I can replan the calendar to target Sep 4–5 and send a quick photo task for the B3 edge where confidence is lower.",
+    "Here’s a clean two-day run. Crew A (six pickers plus one operator) with Harvester H-2 works plot 1, then plot2, then plot3; morning pass 06:30–10:30 and an evening pass 16:00–19:00 to stay out of the midday heat. Crew B (five pickers plus one operator) with Harvester H-3 finishes plot4 and perimeter passes on a 07:00–12:00 shift. Tractor T-7 handles haulage to Silo-1 with T-4 as backup; I’ll hold transport slots at 11:00 and 17:00 both days.\nThroughput should land around 310 tons per day—call it 620–630 tons total. With current rates (labor ~AED 15/h, operators ~AED 28/h, standard fuel/lube), daily operating cost is roughly AED 92k, so AED ~184k for the two days. At today’s spot price that pencils out to ~AED 720.7k in revenue and ~AED 536.7k gross margin—about AED 68k better than harvesting today.\nWant me to apply this plan, and generate the tractor routes?",
   ];
 
   const formMethods = useForm<ChatAgentForm>({
@@ -85,7 +82,7 @@ const ChatAgent = ({ startMessage, children, onClose }: ChatAgentProps) => {
     const words = response.split(" ");
     for (let i = 0; i < words.length; i++) {
       await new Promise((resolve) =>
-        setTimeout(resolve, 50 + Math.random() * 100)
+        setTimeout(resolve, 50 + Math.random() * 50)
       );
       const currentText = words.slice(0, i + 1).join(" ");
 
@@ -115,8 +112,8 @@ const ChatAgent = ({ startMessage, children, onClose }: ChatAgentProps) => {
     setMessages((prev) => [...prev, userMessage]);
 
     // Get random AI response and simulate streaming
-    const randomResponse =
-      mockResponses[Math.floor(Math.random() * mockResponses.length)];
+    const randomResponse = mockResponses[responseIdx.current];
+    responseIdx.current = (responseIdx.current + 1) % 2;
     await simulateStreamingResponse(randomResponse);
   };
 
