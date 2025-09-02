@@ -23,8 +23,8 @@ export default function FieldsDashboardsPage() {
               <Image
                 src="/manage-farm.png"
                 alt="manage-farm"
-                width={100}
-                height={100}
+                width={1000}
+                height={1000}
                 className="w-full h-full object-cover"
               />
 
@@ -47,8 +47,8 @@ export default function FieldsDashboardsPage() {
                 <Image
                   src="/manage-field.png"
                   alt="manage-farm"
-                  width={100}
-                  height={100}
+                  width={1000}
+                  height={1000}
                   className="w-full h-full object-cover"
                 />
 
@@ -65,10 +65,10 @@ export default function FieldsDashboardsPage() {
             </div>
           </div>
 
-          <h2 className="text-3xl text-[#212D45] mb-4">
+          {/* <h2 className="text-3xl text-[#212D45] mb-4">
             Meet Ripen – Your Agriculture AI Expert
           </h2>
-          <div className="h-[100px] bg-gray-200" />
+          <div className="h-[100px] bg-gray-200" /> */}
         </div>
       </div>
     </div>
