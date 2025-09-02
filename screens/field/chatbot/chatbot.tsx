@@ -141,13 +141,12 @@ const ChatAgent = ({ startMessage, children, onClose }: ChatAgentProps) => {
     <Dialog
       onOpenChange={(isOpen) => {
         if (isOpen) {
-          console.log("open", startMessage);
           if (startMessage) {
             onSubmit({ message: startMessage });
           }
           // Dialog Closed
         } else {
-          console.log("closed");
+          responseIdx.current = 0;
           setMessages([]);
           onClose?.();
         }
