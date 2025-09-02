@@ -113,7 +113,10 @@ export function FieldScreen({ id }: { id: string }) {
                   <Bell size={16} />
                   <p>Notifications</p>
                 </CardTitle>
-                <CardAction>
+                <CardAction
+                  onClick={() => router.push(`/notifications`)}
+                  className="cursor-pointer"
+                >
                   <ChevronRight size={16} />
                 </CardAction>
               </CardHeader>

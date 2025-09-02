@@ -39,7 +39,10 @@ export function PlotSidebar({ farm, plot }: Props) {
             <p>Alerts</p>
           </CardTitle>
 
-          <CardAction>
+          <CardAction
+            onClick={() => router.push(`/notifications`)}
+            className="cursor-pointer"
+          >
             <ChevronRight size={16} />
           </CardAction>
         </CardHeader>
