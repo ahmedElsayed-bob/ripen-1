@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, LayoutDashboard, Map, Bell } from "lucide-react";
+import { Home, LayoutDashboard, Map, Bell, Calendar } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -56,6 +56,16 @@ export function Sidebar() {
                 }`}
               >
                 <Map className="w-4 h-4" />
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/calendar"
+                className={`hover:bg-[#e8e2db] inline-block p-1.5 rounded-lg ${
+                  isActive("/notifications") ? "bg-[#e8e2db]" : ""
+                }`}
+              >
+                <Calendar className="w-4 h-4" />
               </Link>
             </li>
             <li>

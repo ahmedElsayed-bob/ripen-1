@@ -8,8 +8,6 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
-import { getFarmById } from "@/lib/storage";
-import { FarmType } from "@/types/farm";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { startOfWeek, endOfWeek } from "date-fns";
@@ -20,8 +18,7 @@ interface Event {
   text: string;
 }
 
-export default function ScheduleScreen({ id }: { id: string }) {
-  const [farm, setFarm] = useState<FarmType>();
+export default function ScheduleScreen() {
   const today = new Date().toISOString().split("T")[0];
   const [selectedDate, setSelectedDate] = useState(today);
   const [weekDays, setWeekDays] = useState<string[]>([]);
@@ -45,11 +42,6 @@ export default function ScheduleScreen({ id }: { id: string }) {
 
     setWeekDays(result);
   }, [selectedDate]);
-
-  useEffect(() => {
-    const farm = getFarmById(id);
-    setFarm(farm);
-  }, [id]);
 
   // Predefined data: { day, source, text }
   const events: Event[] = [
@@ -86,7 +78,7 @@ export default function ScheduleScreen({ id }: { id: string }) {
         <div className="container mx-auto">
           <PageBreadcrumb />
 
-          <h1 className="text-2xl font-bold mb-1">{farm?.name || "farm"}</h1>
+          <h1 className="text-2xl font-bold mb-1">Schedule Management</h1>
           <p className="text-sm text-gray-500">
             Track crop conditions and assess field readiness for optimal
             harvest.
@@ -164,10 +156,6 @@ function PageBreadcrumb() {
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbLink href="/fields">Fields</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
