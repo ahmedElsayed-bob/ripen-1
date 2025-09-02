@@ -59,7 +59,7 @@ const notifications: Notification[] = [
     icon: <Calendar />,
     fieldName: "Al Dhafra Wheat Field",
     plotName: "B6",
-    timestamp: 1756725885000,
+    timestamp: 1756695885000,
   },
   {
     title: "Crop stress detected - High possibility of yield loss",
@@ -67,7 +67,7 @@ const notifications: Notification[] = [
     icon: <CloudRainWind />,
     fieldName: "Al Dhafra Wheat Field",
     plotName: "A2",
-    timestamp: 1756655885000,
+    timestamp: 1755655885000,
   },
 ];
 
@@ -98,6 +98,7 @@ export default function NotificationsScreen() {
         <div className="flex flex-col gap-1 border rounded-2xl w-full p-3">
           {notifications.map(
             ({ title, color, icon, fieldName, plotName, timestamp }, idx) => {
+              const hoursAgo = hoursSince(timestamp);
               return (
                 <div
                   key={idx}
@@ -131,7 +132,12 @@ export default function NotificationsScreen() {
                       <Clock size={18} />
                     </span>
                     <span className="leading-[18px]">
-                      {hoursSince(timestamp)}h ago
+                      {hoursAgo >= 24
+                        ? `${Math.floor(hoursAgo / 24)} day${
+                            Math.floor(hoursAgo / 24) > 1 ? "s" : ""
+                          }`
+                        : `${hoursAgo}h`}{" "}
+                      ago
                     </span>
                   </div>
                 </div>
