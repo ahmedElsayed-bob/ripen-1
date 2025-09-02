@@ -8,10 +8,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { ArrowDown, CalendarIcon, ChevronDown } from "lucide-react";
 
 export function CalendarComponent(props: {
   value: string;
   onChange: (value: string) => void;
+  label?: string;
 }) {
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(
@@ -32,9 +34,11 @@ export function CalendarComponent(props: {
 
   return (
     <div className="flex flex-col gap-1">
-      <Label htmlFor="date" className="text-xs">
-        Planting date
-      </Label>
+      {!!props.label && (
+        <Label htmlFor="date" className="text-xs">
+          {props.label}
+        </Label>
+      )}
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -42,7 +46,12 @@ export function CalendarComponent(props: {
             id="date"
             className="w-48 justify-between font-normal"
           >
-            {date ? date.toLocaleDateString() : "Select date"}
+            <div className="flex items-center gap-2">
+              <CalendarIcon />
+              {date ? date.toISOString().split("T")[0] : "Select date"}
+              {/* {date ? date.toLocaleDateString() : "Select date"} */}
+            </div>
+            <ChevronDown />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto overflow-hidden p-0" align="start">
@@ -50,9 +59,7 @@ export function CalendarComponent(props: {
             mode="single"
             selected={date}
             captionLayout="dropdown"
-            onSelect={(date) => {
-              handleChange(date);
-            }}
+            onSelect={handleChange}
           />
         </PopoverContent>
       </Popover>

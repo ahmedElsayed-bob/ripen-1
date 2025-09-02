@@ -17,6 +17,7 @@ interface PictureUploadBoxProps {
   grid: PlotGridType;
   onInView?: (isInView: boolean) => void;
   onUploadPicture?: () => void;
+  isSelected?: boolean;
 }
 
 export interface PictureUploadBoxRef {
@@ -26,7 +27,7 @@ export interface PictureUploadBoxRef {
 export const PictureUploadBox = forwardRef<
   PictureUploadBoxRef,
   PictureUploadBoxProps
->(({ grid, onInView, onUploadPicture }, ref) => {
+>(({ grid, onInView, onUploadPicture, isSelected }, ref) => {
   const [isLoading, setIsLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploaded, setIsUploaded] = useState(false);
@@ -84,7 +85,6 @@ export const PictureUploadBox = forwardRef<
     onUploadPicture?.();
   };
 
-  // Expose handleUploadPicture function through ref
   useImperativeHandle(
     ref,
     () => ({
@@ -102,7 +102,10 @@ export const PictureUploadBox = forwardRef<
   };
 
   return (
-    <Card ref={cardRef}>
+    <Card
+      ref={cardRef}
+      className={`${isSelected ? "border-1 border-green-500 shadow-lg" : ""}`}
+    >
       <CardHeader>
         <CardTitle>{grid.name}</CardTitle>
       </CardHeader>
@@ -129,7 +132,7 @@ export const PictureUploadBox = forwardRef<
             />
           </div>
         ) : (
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-end gap-4">
             <Button className="bg-[#0D826B] hover:bg-[#0D826B]/90">
               Capture
             </Button>

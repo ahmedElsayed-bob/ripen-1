@@ -111,7 +111,7 @@ function WithIcon(props: { icon: React.ReactNode; text: string }) {
   const { icon, text } = props;
 
   return (
-    <div className="flex flex-row gap-1 items-center">
+    <div className="flex flex-row gap-1 items-center text-[#6B6661]">
       {icon}
       <p className="text-sm">{text}</p>
     </div>

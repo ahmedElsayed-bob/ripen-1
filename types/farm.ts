@@ -44,6 +44,7 @@ export type PlotGridType = {
   name: string;
   color: string;
   missingPicture?: boolean;
+  alerts?: string[];
 };
 
 export type FarmSectionType = {

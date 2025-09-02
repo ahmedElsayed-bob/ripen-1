@@ -135,6 +135,7 @@ export function AttachNewFarmModal(props: AttachNewFarmModalProps) {
               <CalendarComponent
                 value={plantingDate}
                 onChange={(value) => setPlantingDate(value)}
+                label="Planting Date"
               />
 
               <div className="flex flex-col gap-1">

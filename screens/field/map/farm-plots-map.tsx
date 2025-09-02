@@ -21,7 +21,13 @@ const libraries = ["drawing", "geometry", "places"] as (
   | "places"
 )[];
 
-export function FarmPlotsMap({ farm }: { farm: FarmType }) {
+export function FarmPlotsMap({
+  farm,
+  colors,
+}: {
+  farm: FarmType;
+  colors?: Record<string, string>;
+}) {
   const router = useRouter();
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY!,
@@ -135,13 +141,13 @@ export function FarmPlotsMap({ farm }: { farm: FarmType }) {
           />
         )}
 
-        {farm.sections?.map((section) => (
+        {farm.sections?.map((section, index) => (
           <React.Fragment key={section.id}>
             <Polygon
               paths={section.coords}
               options={{
                 //   fillOpacity: hoverId === section.id ? 0.6 : 0.4,
-                fillColor: section.color,
+                fillColor: colors?.[section.color] || section.color,
                 fillOpacity: 0.8,
                 strokeColor: "#000",
                 strokeWeight: 1.5,
@@ -160,11 +166,13 @@ export function FarmPlotsMap({ farm }: { farm: FarmType }) {
               mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
             >
               <div className="flex flex-col items-center gap-1 transform -translate-x-1/2 -translate-y-1/2">
-                {section.isMissingPicture ? (
+                {section.isMissingPicture && (
                   <Camera className="text-white" size={16} />
-                ) : (
+                )}
+                {index <= 1 && (
                   <TriangleAlert className="text-white" size={16} />
                 )}
+
                 <p className="text-sm text-white">{section.name}</p>
               </div>
             </OverlayView>

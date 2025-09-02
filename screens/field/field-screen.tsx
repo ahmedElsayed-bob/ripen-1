@@ -34,6 +34,9 @@ import {
 import { FarmPlotsMap } from "./map/farm-plots-map";
 import { useRouter } from "next/navigation";
 import ChatAgent from "./chatbot/chatbot";
+import { ReadinessOverlay } from "@/components/readiness-overlay";
+import { LiveIndicator } from "@/components/live-indicator";
+import { CalendarComponent } from "../farms/calendar";
 
 export function FieldScreen({ id }: { id: string }) {
   const [farm, setFarm] = useState<FarmType>();
@@ -85,8 +88,22 @@ export function FieldScreen({ id }: { id: string }) {
 
       <div className="container mx-auto">
         <div className="flex gap-4">
-          <div className="h-[700px] flex-1 bg-gray-200 rounded-xl overflow-hidden">
+          <div className="h-[700px] flex-1 bg-gray-200 rounded-xl overflow-hidden relative">
             <FarmPlotsMap farm={farm} />
+
+            <div className="absolute bottom-4 left-4">
+              <ReadinessOverlay />
+            </div>
+
+            <div className="absolute top-4 right-4">
+              <div className="flex items-center gap-2">
+                <CalendarComponent
+                  value={new Date().toISOString()}
+                  onChange={(value) => {}}
+                />
+                <LiveIndicator isLive={true} onClick={() => {}} />
+              </div>
+            </div>
           </div>
 
           <div className="w-[300px] flex flex-col gap-6">
@@ -96,22 +113,25 @@ export function FieldScreen({ id }: { id: string }) {
                   <Bell size={16} />
                   <p>Notifications</p>
                 </CardTitle>
-                <CardAction>
+                <CardAction
+                  onClick={() => router.push(`/notifications`)}
+                  className="cursor-pointer"
+                >
                   <ChevronRight size={16} />
                 </CardAction>
               </CardHeader>
               <CardContent className="text-sm text-gray-500 flex flex-col gap-2 px-4">
                 <div className="flex items-center gap-2">
                   <Flame size={14} />
-                  <p>Heat stress risk in A3</p>
+                  <p>Heatwave risk expected next week</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <Image size={14} />
-                  <p>Photo overdue in B4</p>
+                  <p>Photo overdue in Plot 4</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <CircleDollarSign size={14} />
-                  <p>Buyer price +5% in B5</p>
+                  <p>Buyer price +5%</p>
                 </div>
               </CardContent>
             </Card>
@@ -129,14 +149,20 @@ export function FieldScreen({ id }: { id: string }) {
             </Card>
 
             <Card className="py-4 gap-3 shadow-lg">
-              <CardHeader className="px-4">
+              <CardHeader
+                className="px-4 cursor-pointer"
+                onClick={() => router.push(`/fields/${id}/profitability`)}
+              >
                 <CardTitle className="flex items-center gap-2">
                   <Wheat size={16} />
                   <p>Forecasted Yield</p>
                 </CardTitle>
+                <CardAction>
+                  <ChevronRight size={16} />
+                </CardAction>
               </CardHeader>
               <CardContent className="text-sm text-gray-500">
-                <p>128 t</p>
+                <p>1240 tons</p>
               </CardContent>
             </Card>
 
@@ -147,7 +173,9 @@ export function FieldScreen({ id }: { id: string }) {
                   <p>Revenue</p>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="text-sm text-gray-500">$1500</CardContent>
+              <CardContent className="text-sm text-gray-500">
+                308,090.4 USD
+              </CardContent>
             </Card>
 
             <Card className="p-0 shadow-lg">
@@ -177,7 +205,7 @@ export function FieldScreen({ id }: { id: string }) {
                       ref={chatbotSendButton}
                       disabled={!chatboxMessage}
                       size="sm"
-                      className="h-full bg-green-500 text-white hover:bg-green-500/90 cursor-pointer"
+                      className="h-full bg-green-500 text-white hover:bg-green-500/90 cursor-pointer bg-[#0D826B]"
                     >
                       <Send size={16} />
                     </Button>

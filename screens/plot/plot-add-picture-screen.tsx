@@ -11,11 +11,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Camera, ChevronDown, Grid2X2 } from "lucide-react";
+import { Camera, CameraOff, ChevronDown, Grid2X2, PinIcon } from "lucide-react";
 import {
   PictureUploadBox,
   PictureUploadBoxRef,
 } from "./components/picture-upload-box";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { DialogTrigger } from "@radix-ui/react-dialog";
+import { Button } from "@/components/ui/button";
 
 interface PlotAddPictureScreenProps {
   id: string;
@@ -111,7 +114,7 @@ function PictureSelector({
       }
     }
   };
-  console.log("here");
+
   const imagesUrls = [
     "/imgs/wheat.webp",
     "/imgs/wheat.webp",
@@ -127,17 +130,21 @@ function PictureSelector({
           <div className=" bg-black rounded-xl flex gap-4 p-4">
             <div className=" w-40 max-h-[580px] overflow-y-auto">
               {imagesUrls.map((url, index) => (
-                <img
+                <ModalContent
+                  imageUrl={url}
+                  onSave={handleImageClick}
                   key={index}
-                  src={url}
-                  alt="selectedGrid"
-                  className="w-32 h-32 object-cover rounded-xl mb-3 cursor-pointer hover:opacity-80 transition-opacity"
-                  onClick={handleImageClick}
-                />
+                >
+                  <img
+                    src={url}
+                    alt="selectedGrid"
+                    className="w-32 h-32 object-cover rounded-xl mb-3 cursor-pointer hover:opacity-80 transition-opacity"
+                  />
+                </ModalContent>
               ))}
             </div>
 
-            <div className="flex-1 text-white flex flex-col gap-4 items-center justify-center">
+            <div className="flex-1 text-white flex flex-col gap-4 items-center justify-center relative">
               <img
                 src={"/maximzie-rect.png"}
                 alt="selectedGrid"
@@ -145,6 +152,14 @@ function PictureSelector({
                 onClick={handleImageClick}
               />
               <div className="w-10 h-10 bg-red-500 rounded-full border-4 border-white" />
+              <div className="absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2">
+                <div className="flex flex-col items-center gap-2">
+                  <CameraOff size={20} />
+                  <span className="text-sm font-bold">
+                    Connected with Camera
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -167,9 +182,14 @@ function PictureSelector({
                   <div
                     key={grid.id}
                     className={`bg-gray-100 min-h-16 flex flex-col gap-1 items-center justify-center text-xs ${
-                      index === 3 ? "bg-green-700 text-white" : ""
+                      index === 2 ? "bg-green-700 text-white" : ""
+                    } ${
+                      selectedGrid?.id === grid.id
+                        ? "bg-gray-300 shadow-sm"
+                        : ""
                     }`}
                   >
+                    {index === 2 ? <PinIcon size={12} /> : null}
                     {grid.missingPicture ? <Camera size={12} /> : null}
                     {grid.name}
                   </div>
@@ -192,6 +212,7 @@ function PictureSelector({
                 grid={ele}
                 onInView={(isInView) => handleGridInView(ele, isInView)}
                 onUploadPicture={() => onUploadPicture(ele)}
+                isSelected={selectedGrid?.id === ele.id}
               />
             ))}
           </div>
@@ -200,3 +221,37 @@ function PictureSelector({
     </div>
   );
 }
+
+const ModalContent = ({
+  children,
+  imageUrl,
+  onSave,
+}: {
+  children: React.ReactNode;
+  imageUrl: string;
+  onSave: () => void;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleSave = () => {
+    setIsOpen(false);
+    onSave();
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger>{children}</DialogTrigger>
+      <DialogContent className="w-[1200px] !max-w-full">
+        <div>
+          <img src={imageUrl} alt="Modal Image" />
+        </div>
+        <div className="flex justify-end gap-2">
+          <Button onClick={() => setIsOpen(false)} variant="outline">
+            Close
+          </Button>
+          <Button onClick={handleSave}>Save</Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};

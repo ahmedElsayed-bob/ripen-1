@@ -79,7 +79,7 @@ export default function MapFarmSelector({
   const [polygonPath, setPolygonPath] = useState<google.maps.LatLngLiteral[]>(
     []
   );
-
+  console.log(polygonPath);
   const [farm, setFarm] = useState<FarmShape | null>(null);
   const [isDrawingMode, setIsDrawingMode] = useState<boolean>(false);
 
@@ -205,48 +205,92 @@ export default function MapFarmSelector({
   const onTraceClicked = () => {
     const pathCoords = [
       {
-        lat: 25.090623328227252,
-        lng: 55.93181849040212,
+        lat: 25.08876410975994,
+        lng: 55.930050451095084,
       },
       {
-        lat: 25.088762615079283,
-        lng: 55.930016045944114,
+        lat: 25.090640612105233,
+        lng: 55.93184484892605,
       },
       {
-        lat: 25.087926985347377,
-        lng: 55.93108356513204,
+        lat: 25.090326649154246,
+        lng: 55.93227064960716,
       },
       {
-        lat: 25.088301076107204,
-        lng: 55.93141615904989,
+        lat: 25.090292034234146,
+        lng: 55.932245839173774,
       },
       {
-        lat: 25.087800668728665,
-        lng: 55.93207061804952,
+        lat: 25.089672607692595,
+        lng: 55.933054525191764,
       },
       {
-        lat: 25.088058160159576,
-        lng: 55.932279830352684,
+        lat: 25.08956390408396,
+        lng: 55.93294723683117,
       },
       {
-        lat: 25.08854399157266,
-        lng: 55.93165755786123,
+        lat: 25.089504693977176,
+        lng: 55.93288688712833,
       },
       {
-        lat: 25.08925330197213,
-        lng: 55.93231201686086,
+        lat: 25.08947098974975,
+        lng: 55.93283994847057,
       },
       {
-        lat: 25.08908326218252,
-        lng: 55.93260169543447,
+        lat: 25.089481313568136,
+        lng: 55.932764846618156,
       },
       {
-        lat: 25.089146419846244,
-        lng: 55.93263388194265,
+        lat: 25.089462487780985,
+        lng: 55.93272193127392,
       },
       {
-        lat: 25.08968568780138,
-        lng: 55.933030848876854,
+        lat: 25.089421192495838,
+        lng: 55.93272595458744,
+      },
+      {
+        lat: 25.08933617274721,
+        lng: 55.93273266010998,
+      },
+      {
+        lat: 25.08912240854686,
+        lng: 55.93257172756908,
+      },
+      {
+        lat: 25.08920378473533,
+        lng: 55.93246108644722,
+      },
+      {
+        lat: 25.08918920989963,
+        lng: 55.93244566374538,
+      },
+      {
+        lat: 25.089206213874473,
+        lng: 55.93238866680382,
+      },
+      {
+        lat: 25.08926694233684,
+        lng: 55.93231557660816,
+      },
+      {
+        lat: 25.08852726761301,
+        lng: 55.931641001040916,
+      },
+      {
+        lat: 25.0880827318843,
+        lng: 55.932245839173774,
+      },
+      {
+        lat: 25.087843459252568,
+        lng: 55.93204467349766,
+      },
+      {
+        lat: 25.088328076939725,
+        lng: 55.931441176469306,
+      },
+      {
+        lat: 25.08794548418829,
+        lng: 55.93109383040188,
       },
     ];
 
@@ -396,6 +440,7 @@ export default function MapFarmSelector({
                 fillColor: "#0D826B",
                 strokeColor: "#0D826B",
                 strokeWeight: 2,
+
                 editable: true,
                 draggable: false,
               },
@@ -433,7 +478,11 @@ export default function MapFarmSelector({
         <DialogClose asChild>
           <Button variant="outline">Cancel</Button>
         </DialogClose>
-        <Button onClick={handleOnSave} disabled={!farm}>
+        <Button
+          onClick={handleOnSave}
+          disabled={!farm}
+          className="bg-[#0D826B]"
+        >
           Save
         </Button>
       </div>
