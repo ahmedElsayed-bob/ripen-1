@@ -43,11 +43,10 @@ export function PlotGrids({
     <div className="min-h-[500px] relative">
       <div className="grid grid-cols-5 rounded-xl overflow-hidden">
         {gridsData.map((grid) => {
-          console.log(grid);
           return (
-            <Tooltip>
+            <Tooltip key={grid.id}>
               <TooltipTrigger>
-                <GridCell key={grid.id} color={grid.color}>
+                <GridCell color={grid.color}>
                   <div className="flex flex-col items-center justify-center gap-2">
                     {!!grid.alerts?.length && <TriangleAlert size={24} />}
                     {grid.name}

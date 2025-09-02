@@ -28,12 +28,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#f5f2f0]`}
       >
-        <div className="flex flex-row h-screen">
-          <Sidebar />
-          <div className="flex flex-col w-full bg-white m-4 ms-0 rounded-xl shadow-md overflow-y-auto">
-            {children}
-          </div>
-        </div>
+        {children}
       </body>
     </html>
   );

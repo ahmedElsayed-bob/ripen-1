@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PlotPageHeader } from "../plot/plot-page-header";
 import { getFarmById } from "@/lib/storage";
 import { FarmType } from "@/types/farm";
@@ -47,6 +47,15 @@ export function ProfitabilityScreen({
     </>
   );
 }
+
+const newColors: Record<string, string[]> = {
+  "#133B33": ["#1C594D", "#267666", "#2F9480", "#56A898", "#7CBDB0"],
+  "#1C594D": ["#267666", "#2F9480", "#56A898", "#7CBDB0", "#7f8000"],
+  "#267666": ["#2F9480", "#56A898", "#7CBDB0", "#7f8000", "#b2b300"],
+  "#2F9480": ["#56A898", "#7CBDB0", "#7f8000", "#b2b300", "#c6c600"],
+  "#56A898": ["#7CBDB0", "#7f8000", "#b2b300", "#c6c600", "#ffff1a"],
+  "#7CBDB0": ["#7f8000", "#b2b300", "#c6c600", "#ffff1a", "#ffff4d"],
+};
 
 function calculatePriceDecrease(sliderValue: number): number {
   const decreaseValues = [2.4, 2.4, 2.4, 2.4, 2.4, 1.7, 1.3, 1.3, 1.3, 1.3];
@@ -107,11 +116,41 @@ function YieldParameters({ farm }: { farm: FarmType }) {
     });
   };
 
+  const getColors = () => {
+    let colors: Record<string, string> = {};
+    Object.keys(newColors).forEach((c) => {
+      const values = newColors[c];
+      const index = Math.abs(timeToHarvest);
+      console.log(index);
+      const correctIndex =
+        index <= 1
+          ? 0
+          : index <= 3
+          ? 1
+          : index <= 5
+          ? 2
+          : index <= 7
+          ? 3
+          : index <= 9
+          ? 4
+          : 4;
+      colors[c] = values[correctIndex];
+    });
+
+    return colors;
+  };
+
+  const updatedColors = useMemo(() => {
+    if (timeToHarvest === 0) return;
+
+    return getColors();
+  }, [timeToHarvest]);
+
   return (
     <div className="container mx-auto">
       <div className="flex gap-4 ">
         <div className=" flex-1 bg-gray-100 relative">
-          <FarmPlotsMap farm={farm} />
+          <FarmPlotsMap farm={farm} colors={updatedColors} />
 
           <div className="absolute bottom-4 left-4 bg-gray-100">
             <ReadinessOverlay title="Expected Revenue" />

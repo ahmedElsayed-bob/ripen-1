@@ -478,7 +478,11 @@ export default function MapFarmSelector({
         <DialogClose asChild>
           <Button variant="outline">Cancel</Button>
         </DialogClose>
-        <Button onClick={handleOnSave} disabled={!farm}>
+        <Button
+          onClick={handleOnSave}
+          disabled={!farm}
+          className="bg-[#0D826B]"
+        >
           Save
         </Button>
       </div>

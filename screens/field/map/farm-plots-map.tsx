@@ -21,7 +21,13 @@ const libraries = ["drawing", "geometry", "places"] as (
   | "places"
 )[];
 
-export function FarmPlotsMap({ farm }: { farm: FarmType }) {
+export function FarmPlotsMap({
+  farm,
+  colors,
+}: {
+  farm: FarmType;
+  colors?: Record<string, string>;
+}) {
   const router = useRouter();
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY!,
@@ -141,7 +147,7 @@ export function FarmPlotsMap({ farm }: { farm: FarmType }) {
               paths={section.coords}
               options={{
                 //   fillOpacity: hoverId === section.id ? 0.6 : 0.4,
-                fillColor: section.color,
+                fillColor: colors?.[section.color] || section.color,
                 fillOpacity: 0.8,
                 strokeColor: "#000",
                 strokeWeight: 1.5,

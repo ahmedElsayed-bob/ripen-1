@@ -45,7 +45,7 @@ export function PlotSidebar({ farm, plot }: Props) {
         </CardHeader>
         <CardContent
           className="text-sm text-gray-500 flex flex-col px-4 overflow-y-auto flex flex-col gap-2"
-          style={{ height: "50px" }}
+          style={{ maxHeight: "50px" }}
         >
           {gridsWithAlerts?.map((grid) => (
             <p key={grid.id}>

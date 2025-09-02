@@ -202,7 +202,7 @@ export function FieldScreen({ id }: { id: string }) {
                       ref={chatbotSendButton}
                       disabled={!chatboxMessage}
                       size="sm"
-                      className="h-full bg-green-500 text-white hover:bg-green-500/90 cursor-pointer"
+                      className="h-full bg-green-500 text-white hover:bg-green-500/90 cursor-pointer bg-[#0D826B]"
                     >
                       <Send size={16} />
                     </Button>
