@@ -7,7 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Send } from "lucide-react";
+import { Send, Mic } from "lucide-react";
 import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -235,7 +235,14 @@ const ChatAgent = ({ startMessage, children, onClose }: ChatAgentProps) => {
               )}
               rules={{ required: true }}
             />
-
+            <Button
+              className="text-[#6B6661] hover:bg-green-200 cursor-pointer"
+              disabled={isAiTyping}
+              form="chat-agent-form"
+              variant="secondary"
+            >
+              <Mic size={16} />
+            </Button>
             <Button
               className="bg-green-500 text-white hover:bg-green-500/90 cursor-pointer"
               disabled={!isMessageValid || isAiTyping}

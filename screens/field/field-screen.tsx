@@ -27,6 +27,7 @@ import {
   CircleDollarSign,
   Flame,
   Image,
+  Mic,
   Send,
   Wheat,
 } from "lucide-react";
@@ -158,7 +159,14 @@ export function FieldScreen({ id }: { id: string }) {
                   className="w-full h-24 resize-none border border-transparent rounded-md p-2 text-sm outline-none"
                   placeholder="Ask Ripen"
                 ></textarea>
-                <div className="p-2 flex justify-end">
+                <div className="p-2 flex justify-end gap-2.5">
+                  <Button
+                    className="text-[#6B6661] hover:bg-green-200 cursor-pointer"
+                    form="chat-agent-form"
+                    variant="secondary"
+                  >
+                    <Mic size={16} />
+                  </Button>
                   <ChatAgent
                     startMessage={chatboxMessage}
                     onClose={() => {
@@ -167,8 +175,9 @@ export function FieldScreen({ id }: { id: string }) {
                   >
                     <Button
                       ref={chatbotSendButton}
+                      disabled={!chatboxMessage}
                       size="sm"
-                      className="bg-green-500 text-white hover:bg-green-500/90 cursor-pointer"
+                      className="h-full bg-green-500 text-white hover:bg-green-500/90 cursor-pointer"
                     >
                       <Send size={16} />
                     </Button>
