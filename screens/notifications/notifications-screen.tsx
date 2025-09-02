@@ -101,7 +101,7 @@ export default function NotificationsScreen() {
               return (
                 <div
                   key={idx}
-                  className="flex flex-row gap-3.5 h-[62px] border border-[#E8E2DB] rounded-[8px] p-2 hover:bg-[#CAE8E4] hover:border-[#0D826B] cursor-pointer"
+                  className="flex flex-row gap-3.5 h-[62px] border border-[#E8E2DB] rounded-[8px] p-2 hover:bg-[#CAE8E4] hover:border-[#0D826B]"
                 >
                   <div
                     className="flex justify-center items-center w-11 rounded-[8px]"
