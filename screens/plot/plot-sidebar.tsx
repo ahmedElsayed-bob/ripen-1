@@ -28,6 +28,7 @@ export function PlotSidebar({ farm, plot }: Props) {
   const router = useRouter();
 
   const missingPictureGrids = grid?.grids.filter((grid) => grid.missingPicture);
+  const gridsWithAlerts = grid?.grids.filter((grid) => grid.alerts?.length);
 
   return (
     <div className="w-[300px] flex flex-col gap-6">
@@ -42,9 +43,19 @@ export function PlotSidebar({ farm, plot }: Props) {
             <ChevronRight size={16} />
           </CardAction>
         </CardHeader>
-        <CardContent className="text-sm text-gray-500 flex flex-col px-4">
-          <p>Crop stress </p>
-          <p>overheat </p>
+        <CardContent
+          className="text-sm text-gray-500 flex flex-col px-4 overflow-y-auto flex flex-col gap-2"
+          style={{ height: "50px" }}
+        >
+          {gridsWithAlerts?.map((grid) => (
+            <p key={grid.id}>
+              {grid.alerts?.[0]} - {grid.name}
+            </p>
+          ))}
+
+          {missingPictureGrids?.map((grid) => (
+            <p key={grid.id}>In-field photo required - {grid.name}</p>
+          ))}
         </CardContent>
       </Card>
 
@@ -58,12 +69,12 @@ export function PlotSidebar({ farm, plot }: Props) {
 
         <CardContent className="flex flex-col px-4 gap-2">
           <div className="bg-gray-50 py-1 px-3 rounded-lg text-sm">
-            <div>ETA To Harvest</div>
+            <div className="mb-1">ETA To Harvest</div>
             <div className="text-gray-500 text-xs">5 - 7 days</div>
           </div>
 
           <div className="bg-gray-50 py-1 px-3 rounded-lg text-sm">
-            <div>Expected Yield</div>
+            <div className="mb-1">Expected Yield</div>
             <div className="text-gray-500 text-xs">7.8 tons</div>
           </div>
 
@@ -86,7 +97,7 @@ export function PlotSidebar({ farm, plot }: Props) {
           </div>
 
           <div className="bg-gray-50 py-1 px-3 rounded-lg text-sm">
-            <div>Estimated Revenue</div>
+            <div className="mb-1">Estimated Revenue</div>
             <div className="text-gray-500 text-xs">6,140 USD</div>
           </div>
         </CardContent>
@@ -110,7 +121,10 @@ export function PlotSidebar({ farm, plot }: Props) {
             </Link>
           </CardHeader>
 
-          <CardContent className="flex flex-col px-4 gap-2">
+          <CardContent
+            className="flex flex-col px-4 gap-2 overflow-y-auto"
+            style={{ height: "95px" }}
+          >
             {missingPictureGrids.map((ele) => (
               <div
                 className="bg-gray-50 py-2 px-3 rounded-lg text-sm flex items-center justify-between"
@@ -129,11 +143,17 @@ export function PlotSidebar({ farm, plot }: Props) {
         </Card>
       )}
 
-      <Card className="p-4 gap-3 shadow-lg">
-        <div className="flex items-center gap-2">
-          <Calendar size={20} />
-          <p>Tasks / Schedule</p>
-        </div>
+      <Card className="p-4 pb-2 gap-3 shadow-lg">
+        <CardHeader className="p-0 items-center m-0">
+          <CardTitle className="flex items-center gap-2">
+            <Calendar size={20} />
+            <p>Tasks / Schedule</p>
+          </CardTitle>
+
+          <CardAction>
+            <ChevronRight size={16} />
+          </CardAction>
+        </CardHeader>
       </Card>
     </div>
   );

@@ -8,10 +8,14 @@ import { PLOTS_GRIDS_DATA } from "@/constants/farms";
 import { PlotHeadSection } from "./plot-head-section";
 import { PlotSidebar } from "./plot-sidebar";
 import { PlotPageHeader } from "./plot-page-header";
+import { addMonths, isBefore } from "date-fns";
 
 export function PlotScreen({ id, plot }: { id: string; plot: string }) {
   const [farm, setFarm] = useState<FarmType>();
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedDate, setSelectedDate] = useState<string>(
+    new Date().toISOString()
+  );
 
   useEffect(() => {
     const farm = getFarmById(id);
@@ -27,9 +31,9 @@ export function PlotScreen({ id, plot }: { id: string; plot: string }) {
     );
 
   if (!farm) return <>No farm found</>;
+  const isBeforeTwoMonths = isBefore(selectedDate, addMonths(new Date(), -2));
 
   const grid = farm.sections?.find((section) => section.id === plot);
-
   return (
     <>
       <PlotPageHeader
@@ -47,12 +51,15 @@ export function PlotScreen({ id, plot }: { id: string; plot: string }) {
               sections={farm.sections || []}
               farmId={id}
               plot={plot}
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
             />
 
             <PlotGrids
               grids={grid?.grids || PLOTS_GRIDS_DATA}
               farmId={id}
               sectionId={plot}
+              isBeforeTwoMonths={isBeforeTwoMonths}
             />
           </div>
 

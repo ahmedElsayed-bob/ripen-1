@@ -135,7 +135,7 @@ export function FarmPlotsMap({ farm }: { farm: FarmType }) {
           />
         )}
 
-        {farm.sections?.map((section) => (
+        {farm.sections?.map((section, index) => (
           <React.Fragment key={section.id}>
             <Polygon
               paths={section.coords}
@@ -160,11 +160,13 @@ export function FarmPlotsMap({ farm }: { farm: FarmType }) {
               mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
             >
               <div className="flex flex-col items-center gap-1 transform -translate-x-1/2 -translate-y-1/2">
-                {section.isMissingPicture ? (
+                {section.isMissingPicture && (
                   <Camera className="text-white" size={16} />
-                ) : (
+                )}
+                {index <= 1 && (
                   <TriangleAlert className="text-white" size={16} />
                 )}
+
                 <p className="text-sm text-white">{section.name}</p>
               </div>
             </OverlayView>

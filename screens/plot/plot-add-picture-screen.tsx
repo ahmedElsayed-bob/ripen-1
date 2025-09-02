@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Camera, ChevronDown, Grid2X2 } from "lucide-react";
+import { Camera, CameraOff, ChevronDown, Grid2X2, PinIcon } from "lucide-react";
 import {
   PictureUploadBox,
   PictureUploadBoxRef,
@@ -111,7 +111,7 @@ function PictureSelector({
       }
     }
   };
-  console.log("here");
+
   const imagesUrls = [
     "/imgs/wheat.webp",
     "/imgs/wheat.webp",
@@ -137,7 +137,7 @@ function PictureSelector({
               ))}
             </div>
 
-            <div className="flex-1 text-white flex flex-col gap-4 items-center justify-center">
+            <div className="flex-1 text-white flex flex-col gap-4 items-center justify-center relative">
               <img
                 src={"/maximzie-rect.png"}
                 alt="selectedGrid"
@@ -145,6 +145,14 @@ function PictureSelector({
                 onClick={handleImageClick}
               />
               <div className="w-10 h-10 bg-red-500 rounded-full border-4 border-white" />
+              <p className="absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2">
+                <div className="flex flex-col items-center gap-2">
+                  <CameraOff size={20} />
+                  <span className="text-sm font-bold">
+                    Connected with Camera
+                  </span>
+                </div>
+              </p>
             </div>
           </div>
         </div>
@@ -167,9 +175,14 @@ function PictureSelector({
                   <div
                     key={grid.id}
                     className={`bg-gray-100 min-h-16 flex flex-col gap-1 items-center justify-center text-xs ${
-                      index === 3 ? "bg-green-700 text-white" : ""
+                      index === 2 ? "bg-green-700 text-white" : ""
+                    } ${
+                      selectedGrid?.id === grid.id
+                        ? "bg-gray-300 shadow-sm"
+                        : ""
                     }`}
                   >
+                    {index === 2 ? <PinIcon size={12} /> : null}
                     {grid.missingPicture ? <Camera size={12} /> : null}
                     {grid.name}
                   </div>
@@ -192,6 +205,7 @@ function PictureSelector({
                 grid={ele}
                 onInView={(isInView) => handleGridInView(ele, isInView)}
                 onUploadPicture={() => onUploadPicture(ele)}
+                isSelected={selectedGrid?.id === ele.id}
               />
             ))}
           </div>

@@ -7,19 +7,31 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
+import { CalendarComponent } from "../farms/calendar";
+import { isToday } from "date-fns";
+import { LiveIndicator } from "@/components/live-indicator";
 
 interface Props {
   sections: FarmSectionType[];
   farmId: string;
   plot: string;
+  selectedDate: string;
+  setSelectedDate: (date: string) => void;
 }
 
-export function PlotHeadSection({ sections, farmId, plot }: Props) {
+export function PlotHeadSection({
+  sections,
+  farmId,
+  plot,
+  selectedDate,
+  setSelectedDate,
+}: Props) {
   const router = useRouter();
 
   const onSelectSection = (sectionId: string) => {
     router.push(`/fields/${farmId}/${sectionId}`);
   };
+  const isSelectedDateIsToday = isToday(selectedDate);
 
   if (!sections?.length) return null;
 
@@ -38,16 +50,17 @@ export function PlotHeadSection({ sections, farmId, plot }: Props) {
           ))}
         </SelectContent>
       </Select>
-      <LiveIndicator />
-    </div>
-  );
-}
 
-function LiveIndicator() {
-  return (
-    <div className="flex items-center gap-2 bg-white h-9 px-4 rounded-md border border-gray-200">
-      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-      <span className="text-sm">Live</span>
+      <CalendarComponent
+        value={selectedDate}
+        onChange={(value) => {
+          setSelectedDate(value);
+        }}
+      />
+      <LiveIndicator
+        isLive={isSelectedDateIsToday}
+        onClick={() => setSelectedDate(new Date().toISOString())}
+      />
     </div>
   );
 }
