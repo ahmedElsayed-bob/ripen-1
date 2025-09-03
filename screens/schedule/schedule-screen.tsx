@@ -15,7 +15,6 @@ import {
   Card,
   CardHeader,
   CardTitle,
-  CardAction,
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
@@ -24,6 +23,7 @@ import Select from "react-select";
 import { Button } from "@/components/ui/button";
 import { Toaster, toast } from "react-hot-toast";
 import { getFarmById } from "@/lib/storage";
+import { CalendarRangeComponent } from "@/components/ui/calendar-range";
 
 const membersOptions = [
   { value: "Hanan Al-Mansoori", label: "Hanan Al-Mansoori" },
@@ -85,6 +85,7 @@ export default function ScheduleScreen({ id }: { id?: string }) {
   const [shiftLength, setShiftLength] = useState(0);
   const [shiftsPerDay, setShiftsPerDay] = useState(0);
   const [hourlyWage, setHourlyWage] = useState(0);
+  const [dateRange, setDateRange] = useState<string>();
 
   useEffect(() => {
     const start = startOfWeek(selectedDate, { weekStartsOn: 1 });
@@ -121,6 +122,7 @@ export default function ScheduleScreen({ id }: { id?: string }) {
     setShiftLength(0);
     setShiftsPerDay(0);
     setHourlyWage(0);
+    setDateRange("");
   };
 
   const handleDropdownToggle = () => {
@@ -357,9 +359,12 @@ export default function ScheduleScreen({ id }: { id?: string }) {
               </CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-5">
-              {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateRangePicker />
-              </LocalizationProvider> */}
+              <div>
+                <CalendarRangeComponent
+                  value={dateRange}
+                  onChange={(val: string) => setDateRange(val)}
+                />
+              </div>
               <div className="flex justify-between text-[14px] text-gray-400 items-center">
                 <span>Shift start time</span>
                 <input
