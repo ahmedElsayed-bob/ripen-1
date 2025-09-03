@@ -43,12 +43,6 @@ interface Option {
   label: string;
   action: () => void;
 }
-const dropdownOptions: Option[] = [
-  { label: "Settings", action: () => console.log("Settings clicked") },
-  { label: "Manage Teams", action: () => console.log("Manage Teams clicked") },
-  { label: "Help & Support", action: () => console.log("Help clicked") },
-  { label: "Sign Out", action: () => console.log("Sign Out clicked") },
-];
 
 interface Event {
   day: string;
@@ -260,38 +254,37 @@ export default function ScheduleScreen({ id }: { id?: string }) {
         </div>
         <div className="flex flex-col gap-5 min-w-72 w-72 overflow-auto">
           <Card className="py-4 gap-3 shadow-lg">
-            <CardHeader className="px-4 items-center">
-              <CardTitle className="flex items-center gap-2">
-                <UserCircle size={20} />
-                <p>Crew Builder</p>
-              </CardTitle>
-              <CardAction>
-                <button
-                  onClick={handleDropdownToggle}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-                >
-                  <ChevronDown
-                    className={`w-5 h-5 text-gray-600 transition-transform duration-200 ${
-                      isCrewDropdownOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                {isCrewDropdownOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-10">
-                    {dropdownOptions.map((option, index) => {
-                      return (
-                        <button
-                          key={index}
-                          onClick={() => handleOptionClick(option)}
-                          className="w-full flex items-center space-x-3 px-4 py-2 text-left text-gray-700 hover:bg-gray-50 transition-colors duration-150"
-                        >
-                          <span className="text-sm">{option.label}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-              </CardAction>
+            <CardHeader className="relative flex flex-row justify-between px-4 items-center">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <UserCircle size={20} />
+                  <p>Crew Builder</p>
+                </CardTitle>
+              </div>
+              <button
+                onClick={handleDropdownToggle}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+              >
+                <ChevronDown
+                  className={`w-5 h-5 text-gray-600 transition-transform duration-200 ${
+                    isCrewDropdownOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              {isCrewDropdownOpen && (
+                <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-10">
+                  {Array.from({ length: 4 }).map((_, index) => {
+                    return (
+                      <button
+                        key={index}
+                        className="w-full flex items-center space-x-3 px-4 py-2 text-left text-gray-700 hover:bg-gray-50 transition-colors duration-150"
+                      >
+                        <span className="text-sm">Crew {index + 1}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </CardHeader>
             <CardContent className="flex flex-col gap-5">
               <Select
