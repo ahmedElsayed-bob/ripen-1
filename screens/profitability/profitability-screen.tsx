@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { PlotPageHeader } from "../plot/plot-page-header";
 import { getFarmById } from "@/lib/storage";
 import { FarmType } from "@/types/farm";
-import { Slider } from "@/components/ui/slider";
+import { CenteredSlider } from "@/components/ui/centered-slider";
 import { ReadinessOverlay } from "@/components/readiness-overlay";
 import { FarmPlotsMap } from "../field/map/farm-plots-map";
 import { formatNumber } from "@/lib/number";
@@ -85,6 +85,9 @@ function YieldParameters({ farm }: { farm: FarmType }) {
 
   const [timeToHarvest, setTimeToHarvest] = useState(0);
   const [marketPrice, setMarketPrice] = useState(0);
+  const [yieldPerHa, setYieldPerHa] = useState(0);
+  const [gradeA, setGradeA] = useState(0);
+  const [gradeB, setGradeB] = useState(0);
 
   const handleTimeToHarvestChange = (value: number) => {
     setTimeToHarvest(value);
@@ -110,18 +113,6 @@ function YieldParameters({ farm }: { farm: FarmType }) {
         B: gradeBChange,
         C: gradeCChange,
       },
-    });
-  };
-
-  const onMarketPriceChange = (value: number) => {
-    setMarketPrice(value);
-    const priceChange2PercentOfCurrent = (values.marketPrice * 2) / 100;
-
-    const newMarketPrice = values.marketPrice + priceChange2PercentOfCurrent;
-
-    setValues({
-      ...values,
-      marketPrice: Math.floor(newMarketPrice),
     });
   };
 
@@ -217,13 +208,13 @@ function YieldParameters({ farm }: { farm: FarmType }) {
             <CardContainer>
               <p className="font-medium mb-2">Time To Harvest</p>
               <div className="space-y-2">
-                <Slider
+                <CenteredSlider
                   value={[timeToHarvest]}
                   max={10}
                   min={-10}
                   step={1}
                   className="w-full rounded-full"
-                  style={{ height: "6px", background: "#12A789" }}
+                  centerValue={0}
                   onValueChange={(value) => handleTimeToHarvestChange(value[0])}
                 />
                 <div className="flex justify-between text-sm text-gray-500 mt-2">
@@ -236,14 +227,14 @@ function YieldParameters({ farm }: { farm: FarmType }) {
             <CardContainer>
               <p className="font-medium mb-2">Market Price</p>
               <div className="space-y-2">
-                <Slider
+                <CenteredSlider
                   value={[marketPrice]}
                   max={10}
                   min={-10}
                   step={1}
                   className="w-full rounded-full"
-                  style={{ height: "6px", background: "#12A789" }}
-                  onValueChange={(value) => onMarketPriceChange(value[0])}
+                  centerValue={0}
+                  onValueChange={(value) => setMarketPrice(value[0])}
                 />
                 <div className="flex justify-between text-sm text-gray-500 mt-2">
                   <span>-10 USD/ton</span>
@@ -255,13 +246,14 @@ function YieldParameters({ farm }: { farm: FarmType }) {
             <CardContainer>
               <p className="font-medium mb-2">Yield per Ha</p>
               <div className="space-y-2">
-                <Slider
-                  defaultValue={[0]}
+                <CenteredSlider
+                  value={[yieldPerHa]}
                   max={10}
                   min={-10}
                   step={1}
                   className="w-full rounded-full"
-                  style={{ height: "6px", background: "#12A789" }}
+                  centerValue={0}
+                  onValueChange={(value) => setYieldPerHa(value[0])}
                 />
                 <div className="flex justify-between text-sm text-gray-500 mt-2">
                   <span>-10</span>
@@ -273,13 +265,14 @@ function YieldParameters({ farm }: { farm: FarmType }) {
             <CardContainer>
               <p className="font-medium mb-2">Grade A</p>
               <div className="space-y-2">
-                <Slider
-                  defaultValue={[0]}
+                <CenteredSlider
+                  value={[gradeA]}
                   max={10}
                   min={-10}
                   step={1}
                   className="w-full rounded-full"
-                  style={{ height: "6px", background: "#12A789" }}
+                  centerValue={0}
+                  onValueChange={(value) => setGradeA(value[0])}
                 />
                 <div className="flex justify-between text-sm text-gray-500 mt-2">
                   <span>-10</span>
@@ -291,13 +284,14 @@ function YieldParameters({ farm }: { farm: FarmType }) {
             <CardContainer>
               <p className="font-medium mb-2">Grade B</p>
               <div className="space-y-2">
-                <Slider
-                  defaultValue={[0]}
+                <CenteredSlider
+                  value={[gradeB]}
                   max={10}
                   min={-10}
                   step={1}
                   className="w-full rounded-full"
-                  style={{ height: "6px", background: "#12A789" }}
+                  centerValue={0}
+                  onValueChange={(value) => setGradeB(value[0])}
                 />
                 <div className="flex justify-between text-sm text-gray-500 mt-2">
                   <span>-10</span>
