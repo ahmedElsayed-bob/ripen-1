@@ -127,11 +127,6 @@ export default function ScheduleScreen({ id }: { id?: string }) {
     setIsCrewDropdownOpen((prev) => !prev);
   };
 
-  const handleOptionClick = (option: Option) => {
-    option.action();
-    setIsCrewDropdownOpen(false);
-  };
-
   return (
     <>
       <Toaster
@@ -277,6 +272,9 @@ export default function ScheduleScreen({ id }: { id?: string }) {
                     return (
                       <button
                         key={index}
+                        onClick={() => {
+                          setIsCrewDropdownOpen(false);
+                        }}
                         className="w-full flex items-center space-x-3 px-4 py-2 text-left text-gray-700 hover:bg-gray-50 transition-colors duration-150"
                       >
                         <span className="text-sm">Crew {index + 1}</span>
