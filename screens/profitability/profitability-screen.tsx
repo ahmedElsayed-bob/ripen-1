@@ -7,6 +7,7 @@ import { FarmType } from "@/types/farm";
 import { Slider } from "@/components/ui/slider";
 import { ReadinessOverlay } from "@/components/readiness-overlay";
 import { FarmPlotsMap } from "../field/map/farm-plots-map";
+import { formatNumber } from "@/lib/number";
 
 export function ProfitabilityScreen({
   id,
@@ -59,8 +60,14 @@ const newColors: Record<string, string[]> = {
 
 function calculatePriceDecrease(sliderValue: number): number {
   const decreaseValues = [2.4, 2.4, 2.4, 2.4, 2.4, 1.7, 1.3, 1.3, 1.3, 1.3];
+  if (sliderValue === 0) return 0;
 
-  return decreaseValues[Math.abs(sliderValue - 1)];
+  const index = Math.abs(sliderValue - 1);
+  let decreasedValue = 0;
+  for (let i = 0; i <= index; i++) {
+    decreasedValue += decreaseValues[i] || 1.3;
+  }
+  return decreasedValue;
 }
 
 function YieldParameters({ farm }: { farm: FarmType }) {
@@ -73,7 +80,7 @@ function YieldParameters({ farm }: { farm: FarmType }) {
       C: 21,
     },
   });
-  console.log({ values });
+
   const revenue = values.expectedYield * values.marketPrice;
 
   const [timeToHarvest, setTimeToHarvest] = useState(0);
@@ -90,13 +97,14 @@ function YieldParameters({ farm }: { farm: FarmType }) {
       (gradeBChange > 0 ? gradeBChange : 0);
 
     const newYield = 1240 - Math.abs(value) * 12;
-    const newMarketPrice =
-      values.marketPrice - (calculatePriceDecrease(value) || 0);
+
+    const priceDecrease = calculatePriceDecrease(value);
+    const newMarketPrice = 248.46 - (priceDecrease || 0);
 
     setValues({
       ...values,
       expectedYield: newYield,
-      marketPrice: Math.floor(newMarketPrice),
+      marketPrice: newMarketPrice,
       grades: {
         A: gradeAChange,
         B: gradeBChange,
@@ -197,11 +205,11 @@ function YieldParameters({ farm }: { farm: FarmType }) {
               </div>
             </CardContainer>
 
-            <YieldCard title="Revenue" value={`${revenue} USD`} />
+            <YieldCard title="Revenue" value={`${formatNumber(revenue)} USD`} />
 
             <YieldCard
               title="Market Price"
-              value={`${values.marketPrice} USD/ton`}
+              value={`${formatNumber(values.marketPrice)} USD/ton`}
             />
           </div>
 
